@@ -1,0 +1,36 @@
+---
+- name: Harden sshd config
+  become: yes
+  hosts: all
+  tasks:
+    - name: Backup existing sshd_config
+      copy:
+        remote_src: yes
+        force: no
+        src: /etc/ssh/sshd_config
+        dest: /etc/ssh/sshd_config_bkup
+        owner: root
+        group: root
+        mode: 0600
+
+    - name: Copy local hardened sshd config to target
+      copy:
+        src: ../files/sshd_config
+        dest: /etc/ssh/sshd_config
+        owner: root
+        group: root
+        mode: 0600
+
+    - name: Reload sshd service
+      service:
+        name: sshd
+        state: reloaded
+
+    - name: Set motd (displayed on user login)
+      copy:
+        remote_src: no
+        src: ../files/motd
+        dest: /etc/motd
+        owner: root
+        group: root
+        mode: 0644

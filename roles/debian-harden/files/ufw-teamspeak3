@@ -1,0 +1,4 @@
+[teamspeak3]
+title=teamspeak3
+description=Teamspeak 3 server
+ports=9987/udp|10011,30033/tcp

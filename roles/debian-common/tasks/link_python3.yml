@@ -1,0 +1,13 @@
+---
+- name: Symlink python3 to python
+  hosts: all
+  become: yes
+  tasks:
+    - file:
+        follow: yes
+        force: yes
+        group: root
+        owner: root
+        path: /usr/bin/python
+        src: /usr/bin/python3
+        state: link

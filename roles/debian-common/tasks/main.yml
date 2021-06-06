@@ -1,0 +1,8 @@
+---
+# tasks file for debian-common
+- import_playbook: apt.yml
+- import_playbook: link_python3.yml
+- import_playbook: robin.yml
+- import_playbook: set_hostname.yml
+- import_playbook: lock_root.yml
+- import_playbook: reboot.yml

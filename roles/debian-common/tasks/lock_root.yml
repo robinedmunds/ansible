@@ -1,0 +1,69 @@
+---
+- name: Create whoops (recovery) sudo user, add ssh key
+  hosts: all
+  become: yes
+  tasks:
+    - name: Create whoops (recovery) user with sudo
+      user:
+        name: whoops
+        shell: /bin/bash
+        create_home: yes
+        append: yes
+        groups: sudo
+        comment: Recovery account with sudo
+
+    # https://docs.ansible.com/ansible/latest/collections/ansible/posix/authorized_key_module.html
+    - name: Copy ed25519 "whoops-recovery" public key
+      authorized_key:
+        user: whoops
+        key: https://getlegit.co.uk/keys/whoops-recovery.key
+        exclusive: yes
+        manage_dir: yes
+        validate_certs: yes # https source
+
+- name: Create ansible sudo user, add ssh key
+  hosts: all
+  become: yes
+  tasks:
+    - name: Create ansible user with sudo
+      user:
+        name: ansible
+        uid: 2012
+        shell: /bin/bash
+        create_home: yes
+        append: yes
+        groups: sudo
+        password: $6$iWpFu0lYhL10gNcX$kKvF4SpNd5tE.RaEKfBoUqMWNft42RRhLVd7b21nvcvBt4mYNvLigmVrrhv5Yrfnr9zCSLLhF1P.qwaVuftX.1
+        comment: Ansible remote execution
+
+    # https://docs.ansible.com/ansible/latest/collections/ansible/posix/authorized_key_module.html
+    - name: Copy ed25519 "ansible" public key
+      authorized_key:
+        user: ansible
+        key: https://getlegit.co.uk/keys/ansible.key
+        exclusive: yes
+        manage_dir: yes
+        validate_certs: yes # https source
+
+- name: Lock the root user
+  hosts: all
+  become: yes
+  tasks:
+    - name: Set randomised root password
+      user:
+        name: root
+        password: $6$SS65YO1BI1xl0Lwj$MNJ8ZvI7bHWXC1MkOQS5cLPeBm6Zf4hZY.AK6wbV1fO4MZKtHk3WsTVD3qZ2xrEp.J2O4GjDU9eVJLtxEkPVh/
+
+    - name: Lock the root user
+      user:
+        name: root
+        password_lock: yes
+
+- name: Set/change whoops (recovery) password
+  hosts: all
+  become: yes
+  tasks:
+    - name: Create whoops (recovery) user with sudo
+      user:
+        name: whoops
+        password: $6$Xcuyy3A1t8lKKa/e$wOvPy0mHWvcBYKfGuuCeZUQhdPqVdaY.ShaQ2eoiB6uvDmctJm5LZLkg7x1cMRXtjWrgEhJUIZvrG7nS7Tt0u/

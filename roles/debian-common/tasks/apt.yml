@@ -1,0 +1,40 @@
+---
+- name: Perform apt upgrade and install essential pks
+  hosts: all
+  become: yes
+  vars:
+    essential_pkgs:
+      [
+        "sudo",
+        "less",
+        "vim",
+        "nano",
+        "tree",
+        "tmux",
+        "htop",
+        "lshw",
+        "lsb-release",
+        "curl",
+        "wget",
+        "git",
+        "gnupg",
+        "zip",
+        "pigz"
+      ]
+  tasks:
+    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
+    - name: Perform safe apt upgrade
+      apt:
+        update_cache: yes
+        state: latest
+        install_recommends: yes
+        upgrade: safe
+
+    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
+    - name: Install list of essential apt pkgs
+      apt:
+        update_cache: yes
+        state: latest
+        install_recommends: yes
+        name: "{{ item }}"
+      loop: "{{ essential_pkgs }}"

@@ -1,0 +1,54 @@
+---
+- name: Setup user "robin" with sudo
+  hosts: all
+  become: yes
+  tasks:
+    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/user_module.html
+    - name: Create user, robin
+      user:
+        state: present
+        name: robin
+        uid: 1444
+        shell: /bin/bash
+        create_home: yes
+        append: yes
+        groups: sudo
+        password: $6$1dXelg0r66x/qcnd$EZmR5S3lSVpBdzxVf6pYPENthCcHHO5GEa6oiQz//TC6q3M3qGErU9p2vsMSFGVqFNiVltvYrNmqinSRGzeqv/
+        comment: Robin Edmunds
+
+    # https://docs.ansible.com/ansible/latest/collections/ansible/posix/authorized_key_module.html
+    - name: Copy ed25519 "robin-edmunds-2025" public key
+      authorized_key:
+        state: present
+        user: robin
+        key: https://getlegit.co.uk/keys/robin-edmunds.key
+        exclusive: yes
+        manage_dir: yes
+        validate_certs: yes # https source
+
+- name: Clone Personal-Linux-Env git repo and create symlinks of dotfiles
+  hosts: all
+  become: yes
+  tasks:
+    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/git_module.html
+    - name: Clone Personal-Linux-Env repo (read only)
+      git:
+        update: yes
+        clone: yes
+        remote: remote
+        repo: https://github.com/robinedmunds/Personal-Linux-Env.git
+        dest: /home/robin/ansible/Personal-Linux-Env
+
+    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/file_module.html
+    - name: Change ownership of cloned repo dir
+      file:
+        path: /home/robin/.ansible-robin
+        recurse: yes
+        owner: robin
+        group: robin
+
+    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/command_module.html
+    - name: Execute Personal-Linux-Env symlinking script
+      command:
+        chdir: /home/robin/ansible/Personal-Linux-Env
+        cmd: runuser -u robin -- /bin/bash /home/robin/ansible/Personal-Linux-Env/symlink-files-to-home.sh
