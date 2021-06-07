@@ -1,65 +1,54 @@
----
-- name: Install and setup docker daemon from official docker repo
-  hosts: all
-  become: yes
-  tasks:
-    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
-    - name: Remove previous docker installs
-      apt:
-        purge: yes
-        state: absent
-        name: "{{ item }}"
-      loop:
-        - docker
-        - docker-engine
-        - docker.io
-        - containerd
-        - runc
+- name: Remove previous docker installs
+  apt:
+    purge: yes
+    state: absent
+    name: "{{ item }}"
+  loop:
+    - docker
+    - docker-engine
+    - docker.io
+    - containerd
+    - runc
 
-    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
-    - name: Install docker dependencies
-      apt:
-        update_cache: yes
-        install_recommends: yes
-        state: latest
-        name: "{{ item }}"
-      loop:
-        - apt-transport-https
-        - ca-certificates
-        - curl
-        - gnupg
-        - lsb-release
+- name: Install docker dependencies
+  apt:
+    update_cache: yes
+    install_recommends: yes
+    state: latest
+    name: "{{ item }}"
+  loop:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg
+    - lsb-release
 
-    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/shell_module.html
-    - name: Install official docker repo gpg key
-      shell:
-        cmd: curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-        creates: /usr/share/keyrings/docker-archive-keyring.gpg
+- name: Install official docker repo gpg key
+  shell:
+    cmd: curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    creates: /usr/share/keyrings/docker-archive-keyring.gpg
 
-    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_repository_module.html
-    - name: Add official docker repo to sources.list.d
-      apt_repository:
-        state: present
-        update_cache: yes
-        filename: docker
-        repo: deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian buster stable
-        validate_certs: yes # https
+- name: Add official docker repo to sources.list.d
+  apt_repository:
+    state: present
+    update_cache: yes
+    filename: docker
+    repo: deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian buster stable
+    validate_certs: yes # https
 
-    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
-    - name: Install docker from docker repo
-      apt:
-        update_cache: yes
-        install_recommends: yes
-        state: latest
-        name: "{{ item }}"
-      loop:
-        - docker-ce
-        - docker-ce-cli
-        - containerd.io
+- name: Install docker from docker repo
+  apt:
+    update_cache: yes
+    install_recommends: yes
+    state: latest
+    name: "{{ item }}"
+  loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
 
-    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/service_module.html
-    - name: Enable and start docker systemd unit
-      service:
-        name: docker
-        enabled: yes
-        state: started
+- name: Enable and start docker systemd unit
+  service:
+    name: docker
+    enabled: yes
+    state: started

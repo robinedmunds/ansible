@@ -4,5 +4,5 @@
   become: yes
   roles:
     - role: debian-common
-    # - role: debian-docker
+    - role: debian-docker
     # - role: debian-harden

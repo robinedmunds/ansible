@@ -1,24 +1,15 @@
----
-- name: Install docker-compose (download and symlink)
-  hosts: all
-  become: yes
-  vars:
-    docker_compose_url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
-  tasks:
-    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/get_url_module.html
-    - name: Download docker-compose
-      get_url:
-        mode: 0755
-        owner: root
-        group: root
-        dest: /usr/local/bin/docker-compose
-        url: "{{ docker_compose_url }}"
-        validate_certs: yes # https
+- name: Download docker-compose
+  get_url:
+    mode: 0755
+    owner: root
+    group: root
+    dest: /usr/local/bin/docker-compose
+    url: "{{ docker_compose_url }}"
+    validate_certs: yes # https
 
-    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/file_module.html
-    - name: Symlink /usr/local/bin/docker-compose to /usr/bin/docker-compose
-      file:
-        mode: 0755
-        state: link
-        path: /usr/bin/docker-compose # link
-        src: /usr/local/bin/docker-compose # target
+- name: Symlink /usr/local/bin/docker-compose to /usr/bin/docker-compose
+  file:
+    mode: 0755
+    state: link
+    path: /usr/bin/docker-compose # link
+    src: /usr/local/bin/docker-compose # target

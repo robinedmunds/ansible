@@ -1,3 +1,8 @@
----
-- import_playbook: docker.yml
-- import_playbook: docker-compose.yml
+# tasks file for debian-docker
+- name: Install docker daemon from official docker repo
+  import_tasks: docker.yml
+
+- name: Install docker-compose
+  import_tasks: docker-compose.yml
+  vars:
+    docker_compose_url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
