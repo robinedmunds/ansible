@@ -1,7 +1,7 @@
 # tasks file for debian-common
 - name: Apt upgrade system and install essential pkgs
   import_tasks: apt.yml
-  include_vars:
+  include_vars: ../vars
 
 - name: Symlink /usr/bin/python to python3
   import_tasks: link_python3.yml
