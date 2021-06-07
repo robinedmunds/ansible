@@ -1,17 +1,14 @@
-tasks:
-  # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
-  - name: Perform safe apt upgrade
-    apt:
-      update_cache: yes
-      state: latest
-      install_recommends: yes
-      upgrade: safe
+- name: Perform safe apt upgrade
+  apt:
+    update_cache: yes
+    state: latest
+    install_recommends: yes
+    upgrade: safe
 
-  # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
-  - name: Install list of essential apt pkgs
-    apt:
-      update_cache: yes
-      state: latest
-      install_recommends: yes
-      name: "{{ item }}"
-    loop: "{{ essential_pkgs }}"
+- name: Install list of essential apt pkgs
+  apt:
+    update_cache: yes
+    state: latest
+    install_recommends: yes
+    name: "{{ item }}"
+  loop: "{{ essential_pkgs }}"
