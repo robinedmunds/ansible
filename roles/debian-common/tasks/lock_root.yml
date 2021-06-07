@@ -44,11 +44,7 @@
     name: root
     password_lock: yes
 
-- name: Set/change whoops (recovery) password
-  hosts: all
-  become: yes
-  tasks:
-    - name: Create whoops (recovery) user with sudo
-      user:
-        name: whoops
-        password: $6$Xcuyy3A1t8lKKa/e$wOvPy0mHWvcBYKfGuuCeZUQhdPqVdaY.ShaQ2eoiB6uvDmctJm5LZLkg7x1cMRXtjWrgEhJUIZvrG7nS7Tt0u/
+- name: Create whoops (recovery) user with sudo
+  user:
+    name: whoops
+    password: $6$Xcuyy3A1t8lKKa/e$wOvPy0mHWvcBYKfGuuCeZUQhdPqVdaY.ShaQ2eoiB6uvDmctJm5LZLkg7x1cMRXtjWrgEhJUIZvrG7nS7Tt0u/
