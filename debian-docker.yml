@@ -5,4 +5,4 @@
   roles:
     - role: debian-common
     - role: debian-docker
-    # - role: debian-harden
+    - role: debian-harden
