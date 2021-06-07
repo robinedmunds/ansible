@@ -1,6 +1,5 @@
 ---
 - name: Setup user "robin" with sudo
-  hosts: all
   become: yes
   tasks:
     # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/user_module.html

@@ -1,6 +1,5 @@
 ---
 - name: Create whoops (recovery) sudo user, add ssh key
-  hosts: all
   become: yes
   tasks:
     - name: Create whoops (recovery) user with sudo

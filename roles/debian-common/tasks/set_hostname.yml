@@ -1,6 +1,5 @@
 ---
 - name: Set hostname of target to inventory alias
-  hosts: all
   become: yes
   tasks:
     - name: Set hostname of target to inventory alias

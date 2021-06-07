@@ -1,6 +1,5 @@
 ---
 - name: Symlink python3 to python
-  hosts: all
   become: yes
   tasks:
     - file:

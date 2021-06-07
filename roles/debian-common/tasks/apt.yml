@@ -1,6 +1,5 @@
 ---
 - name: Perform apt upgrade and install essential pks
-  hosts: all
   become: yes
   vars:
     essential_pkgs:
