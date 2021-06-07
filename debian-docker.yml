@@ -1,6 +1,6 @@
 ---
 - name: Debian docker roll playbook
-  hosts: children
+  hosts: all
   become: yes
   roles:
     - role: debian-common
