@@ -1,11 +1,9 @@
-all:
-  children:
-    hosts:
-      ansible-1:
-        ansible_host: 192.168.252.129
-      ansible-2:
-        ansible_host: 192.168.252.130
-    vars:
-      ansible_user: whoops
-      ansible_port: 22
-      ansible_connection: ssh
+hosts:
+  ansible-1:
+    ansible_host: 192.168.252.129
+  ansible-2:
+    ansible_host: 192.168.252.130
+vars:
+  ansible_user: whoops
+  ansible_port: 22
+  ansible_connection: ssh
