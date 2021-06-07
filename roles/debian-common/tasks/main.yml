@@ -1,5 +1,6 @@
 ---
 # tasks file for debian-common
+- hosts: children
 - import_playbook: apt.yml
 - import_playbook: link_python3.yml
 - import_playbook: robin.yml
