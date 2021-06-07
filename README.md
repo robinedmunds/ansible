@@ -8,5 +8,4 @@ This repo contains personal ansible roles and inventories. Repo follows the [**r
 2. `python -m venv venv`
 3. `source venv/bin/activate`
 4. `pip install ansible`
-5. 
-
+5. `ansible-galaxy collection install community.general`
