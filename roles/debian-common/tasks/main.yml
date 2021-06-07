@@ -1,5 +1,9 @@
 ---
 # tasks file for debian-common
+- name: Initial setup of fresh Debian system
+  hosts: all
+  become: yes
+
 - name: Apt upgrade system and install essential pkgs
   import_playbook: apt.yml
 
