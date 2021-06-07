@@ -1,2 +1,20 @@
 ---
 # vars file for debian-common
+essential_pkgs:
+  [
+    "sudo",
+    "less",
+    "vim",
+    "nano",
+    "tree",
+    "tmux",
+    "htop",
+    "lshw",
+    "lsb-release",
+    "curl",
+    "wget",
+    "git",
+    "gnupg",
+    "zip",
+    "pigz"
+  ]
