@@ -1,5 +1,2 @@
----
 - name: Reboot target
-  become: yes
-  tasks:
-    - reboot:
+  reboot:
