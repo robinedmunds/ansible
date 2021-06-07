@@ -1,9 +1,8 @@
 ---
 - name: Debian docker roll playbook
   hosts: children
+  become: yes
   roles:
     - role: debian-common
-    - role: debian-docker
-    - role: debian-harden
-  tasks:
-    - debug:
+    # - role: debian-docker
+    # - role: debian-harden
