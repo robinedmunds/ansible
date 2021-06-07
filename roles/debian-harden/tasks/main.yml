@@ -1,4 +1,6 @@
----
 # tasks file for debian-harden
-- import_playbook: sshd.yml
-- import_playbook: ufw.yml
+- name: Harden sshd
+  import_tasks: sshd.yml
+
+- name: Install ufw firewall and default drop
+  import_tasks: ufw.yml

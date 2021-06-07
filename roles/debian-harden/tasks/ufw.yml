@@ -1,67 +1,54 @@
----
-- name: Add and configure firewall (ufw)
-  hosts: all
-  become: yes
-  tasks:
-    - name: Install ufw via apt
-      apt:
-        state: present
-        update_cache: yes
-        name: ufw
+- name: Install ufw via apt
+  apt:
+    state: present
+    update_cache: yes
+    name: ufw
 
-    - name: Allow everything and enable ufw
-      community.general.ufw:
-        state: enabled
-        direction: incoming
-        default: allow
+- name: Allow everything and enable ufw
+  community.general.ufw:
+    state: enabled
+    direction: incoming
+    default: allow
 
-    - name: Set logging
-      community.general.ufw:
-        logging: "off"
+- name: Set logging
+  community.general.ufw:
+    logging: "off"
 
-- name: Add permissive firewall rules (ufw)
-  hosts: all
-  become: yes
-  tasks:
-    - name: Allow custom sshd port
-      community.general.ufw:
-        rule: allow
-        to_port: 1444
-        proto: tcp
-        comment: Custom sshd port
+- name: Allow custom sshd port
+  community.general.ufw:
+    rule: allow
+    to_port: 1444
+    proto: tcp
+    comment: Custom sshd port
 
-    - name: Allow www 80+443
-      community.general.ufw:
-        rule: allow
-        name: WWW Full
+- name: Allow www 80+443
+  community.general.ufw:
+    rule: allow
+    name: WWW Full
 
-    - name: Allow custom znc irc 44444
-      community.general.ufw:
-        rule: allow
-        to_port: 44444
-        proto: tcp
-        comment: znc irc port
+- name: Allow custom znc irc 44444
+  community.general.ufw:
+    rule: allow
+    to_port: 44444
+    proto: tcp
+    comment: znc irc port
 
-    - name: Copy custom Teamspeak3 ufw file
-      copy:
-        remote_src: no
-        src: ../files/ufw-teamspeak3
-        dest: /etc/ufw/applications.d/ufw-teamspeak3
-        mode: 0644
-        owner: root
-        group: root
+- name: Copy custom Teamspeak3 ufw file
+  copy:
+    remote_src: no
+    src: ../files/ufw-teamspeak3
+    dest: /etc/ufw/applications.d/ufw-teamspeak3
+    mode: 0644
+    owner: root
+    group: root
 
-    - name: Allow Teamspeak3 traffic
-      community.general.ufw:
-        rule: allow
-        name: teamspeak3
+- name: Allow Teamspeak3 traffic
+  community.general.ufw:
+    rule: allow
+    name: teamspeak3
 
 - name: Set ufw to default drop
-  hosts: all
-  become: yes
-  tasks:
-    - name: Set ufw to default drop
-      community.general.ufw:
-        state: reloaded
-        direction: incoming
-        default: reject
+  community.general.ufw:
+    state: reloaded
+    direction: incoming
+    default: reject
