@@ -31,7 +31,7 @@
 
 - name: Generate Caddyfile from template
   template:
-    dest: /srv/docker/web
+    dest: /srv/docker/web/Caddyfile
     mode: 0664
     owner: root
     group: docker
