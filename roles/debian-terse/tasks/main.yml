@@ -1,5 +1,5 @@
 # tasks file for debian-harden
-- name: Create /srv/www/* dir
+- name: Create dir /srv/www/*
   file:
     owner: root
     group: docker
@@ -21,6 +21,13 @@
     owner: root
     group: docker
     src: ../templates/docker-compose/web.jinja2
+
+- name: Create dir /srv/docker/web
+  file:
+    owner: root
+    group: docker
+    path: /srv/docker/web
+    state: directory
 
 - name: Generate Caddyfile from template
   template:
