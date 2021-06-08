@@ -36,5 +36,5 @@
 
 - name: Execute Personal-Linux-Env symlinking script
   command:
-    chdir: /home/robin/ansible/Personal-Linux-Env
+    chdir: /home/robin/.ansible-robin/Personal-Linux-Env
     cmd: runuser -u robin -- /bin/bash /home/robin/ansible/Personal-Linux-Env/symlink-files-to-home.sh
