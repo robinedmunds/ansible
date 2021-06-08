@@ -4,5 +4,4 @@ docker_compose_url: https://github.com/docker/compose/releases/download/1.29.2/d
 
 docker_admins:
   - ansible
-  - whoops
   - robin
