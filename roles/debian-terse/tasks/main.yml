@@ -35,7 +35,7 @@
     mode: 0664
     owner: root
     group: docker
-    src: ../templates/docker-compose/Caddyfile.jinja2
+    src: ../templates/Caddyfile.jinja2
 
 - name: Start web services with docker-compose
   community.docker.docker_compose:
