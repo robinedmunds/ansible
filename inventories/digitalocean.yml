@@ -1,0 +1,8 @@
+all:
+  hosts:
+    ansible.tersedigital.co.uk:
+      ansible_host: ansible.tersedigital.co.uk
+  vars:
+    ansible_user: root
+    ansible_port: 22
+    ansible_connection: ssh
