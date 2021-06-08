@@ -7,7 +7,7 @@ This repo contains personal ansible roles and inventories. Repo follows the [**r
 1. `git clone https://github.com/robinedmunds/ansible.git`
 2. `python -m venv venv`
 3. `source venv/bin/activate`
-4. `pip install ansible`
+4. `pip install -r .\requirements.txt`
 5. `ansible-galaxy collection install community.general`
 
 ## ansible.cfg
@@ -15,3 +15,4 @@ This repo contains personal ansible roles and inventories. Repo follows the [**r
 Show lines that deviate from ansible defaults: -
 
 `ansible-config dump --only-changed`
+
