@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    container_name: caddy
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+      volumes:
+        - $PWD/Caddyfile:/etc/caddy/Caddyfile
+        - caddy_data:/data
+        - caddy_config:/config
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: always
+    volumes:
+      - /srv/www/{{ site_name }}:/usr/share/nginx/html:ro
+
+volumes:
+  caddy_data:
+  caddy_config:

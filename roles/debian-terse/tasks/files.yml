@@ -1,0 +1,30 @@
+---
+- name: Copy html template
+  copy:
+    dest: /srv/www/"{{ primary_url }}"
+    mode: 0775
+    owner: root
+    group: docker
+    src: ../files/index.html
+
+- name: Generate nginx, caddy docker-compose file from template
+  template:
+    dest: /srv/docker/web/docker-compose.yml
+    mode: 0664
+    owner: root
+    group: docker
+    src: ../templates/docker-compose/web.jinja2
+
+- name: Generate Caddyfile from template
+  template:
+    dest: /srv/docker/web
+    mode: 0664
+    owner: root
+    group: docker
+    src: ../templates/docker-compose/Caddyfile.jinja2
+
+- name: Start web services with docker-compose
+  community.docker.docker_compose:
+    files: /srv/docker/web/docker-compose.yml
+    pull: yes
+    state: present

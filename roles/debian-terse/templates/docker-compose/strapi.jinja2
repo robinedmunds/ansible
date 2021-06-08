@@ -1,0 +1,14 @@
+db:
+  image: mariadb:10
+  container_name: mariadb
+  restart: always
+  environment:
+    MYSQL_ROOT_PASSWORD: example
+  networks:
+    network1:
+
+adminer:
+  image: adminer
+  restart: always
+  ports:
+    - 8080:8080

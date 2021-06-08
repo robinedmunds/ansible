@@ -1,0 +1,16 @@
+{
+	# GLOBAL OPTIONS
+
+	# TLS Options
+	email {{ email_address }}
+}
+
+{{ primary_url }} {
+	reverse_proxy * {
+		to nginx:80
+	}
+}
+
+{% for addr in urls_to_forward %}{{ addr + " " }}{% endfor %} {
+	redir https://{{ primary_url }}{uri}
+}
