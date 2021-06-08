@@ -23,9 +23,15 @@
     - gnupg
     - lsb-release
 
+- name: Download official docker repo gpg key
+  get_url:
+    dest: /tmp/docker-repo-gpg.key
+    url: https://download.docker.com/linux/debian/gpg
+    validate_certs: yes # https
+
 - name: Install official docker repo gpg key
   shell:
-    cmd: curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    cmd: sudo gpg --dearmor --import /tmp/docker-repo-gpg.key -o /usr/share/keyrings/docker-archive-keyring.gpg
     creates: /usr/share/keyrings/docker-archive-keyring.gpg
 
 - name: Add official docker repo to sources.list.d
