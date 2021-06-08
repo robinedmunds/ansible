@@ -58,3 +58,11 @@
     name: docker
     enabled: yes
     state: started
+
+- name: Add docker admins to docker group
+  user:
+    append: yes
+    groups: docker
+    name: "{{ item }}"
+
+    loop: docker_admins
