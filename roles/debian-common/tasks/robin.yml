@@ -25,7 +25,7 @@
     clone: yes
     remote: remote
     repo: https://github.com/robinedmunds/Personal-Linux-Env.git
-    dest: /home/robin/ansible/Personal-Linux-Env
+    dest: /home/robin/.ansible-robin/Personal-Linux-Env
 
 - name: Change ownership of cloned repo dir
   file:
@@ -37,4 +37,4 @@
 - name: Execute Personal-Linux-Env symlinking script
   command:
     chdir: /home/robin/.ansible-robin/Personal-Linux-Env
-    cmd: runuser -u robin -- /bin/bash /home/robin/ansible/Personal-Linux-Env/symlink-files-to-home.sh
+    cmd: runuser -u robin -- /bin/bash /home/robin/.ansible-robin/Personal-Linux-Env/symlink-files-to-home.sh
