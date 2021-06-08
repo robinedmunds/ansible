@@ -1,7 +1,7 @@
 # tasks file for debian-harden
 - name: Copy html template
   copy:
-    dest: /srv/www/"{{ primary_url }}"
+    dest: /srv/www/"{{ primary_url }}"/index.html
     mode: 0775
     owner: root
     group: docker
