@@ -1,0 +1,8 @@
+all:
+  hosts:
+    docker.local:
+      ansible_host: 192.168.252.135
+  vars:
+    ansible_user: whoops
+    ansible_port: 22
+    ansible_connection: ssh
