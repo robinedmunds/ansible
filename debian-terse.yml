@@ -1,0 +1,9 @@
+---
+- name: Provision terse customer static web server with caddy and nginx
+  hosts: all
+  become: yes
+  roles:
+    - role: debian-common
+    - role: debian-docker
+    - role: debian-terse
+    - role: debian-harden
