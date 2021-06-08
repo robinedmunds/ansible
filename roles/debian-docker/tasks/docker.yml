@@ -64,5 +64,4 @@
     append: yes
     groups: docker
     name: "{{ item }}"
-
-  loop: docker_admins
+  loop: "{{ docker_admins }}"
