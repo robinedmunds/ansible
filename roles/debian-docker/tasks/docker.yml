@@ -31,7 +31,7 @@
 
 - name: Install official docker repo gpg key
   shell:
-    cmd: sudo gpg --dearmor --import /tmp/docker-repo-gpg.key -o /usr/share/keyrings/docker-archive-keyring.gpg
+    cmd: cat /tmp/docker-repo-gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
     creates: /usr/share/keyrings/docker-archive-keyring.gpg
 
 - name: Add official docker repo to sources.list.d
