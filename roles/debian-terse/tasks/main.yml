@@ -1,7 +1,7 @@
 # tasks file for debian-harden
 - name: Create /srv/www/* dir
   file:
-    root: root
+    owner: root
     group: docker
     path: "/srv/www/{{ primary_url }}/"
     state: directory
