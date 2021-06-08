@@ -9,3 +9,5 @@ all:
     primary_url: ansible.tersedigital.co.uk
     urls_to_forward:
       - www.ansible.tersedigital.co.uk
+    site_name: static
+    email_address: robin@tersedigital.com
