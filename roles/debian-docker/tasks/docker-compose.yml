@@ -1,15 +1,6 @@
-- name: Download docker-compose
-  get_url:
-    mode: 0755
-    owner: root
-    group: root
-    dest: /usr/local/bin/docker-compose
-    url: "{{ docker_compose_url }}"
-    validate_certs: yes # https
-
-- name: Symlink /usr/local/bin/docker-compose to /usr/bin/docker-compose
-  file:
-    mode: 0755
-    state: link
-    path: /usr/bin/docker-compose # link
-    src: /usr/local/bin/docker-compose # target
+- name: Install docker module pip dependencies
+  pip:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - docker-compose
