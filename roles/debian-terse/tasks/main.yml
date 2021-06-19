@@ -1,4 +1,11 @@
-# tasks file for debian-harden
+# tasks file for debian-terse
+- name: Install pip for python3
+  apt:
+    update_cache: yes
+    state: latest
+    install_recommends: yes
+    name: python3-pip
+
 - name: Create dir /srv/www/*
   file:
     owner: root
@@ -39,6 +46,7 @@
 
 - name: Start web services with docker-compose
   community.docker.docker_compose:
-    files: /srv/docker/web/docker-compose.yml
+    project_src: /srv/docker/web/
     pull: yes
+    remove_orphans: yes
     state: present
