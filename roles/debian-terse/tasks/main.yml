@@ -6,6 +6,14 @@
     install_recommends: yes
     name: python3-pip
 
+- name: Install docker module pip dependencies
+  pip:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - PyYAML
+    - docker
+
 - name: Create dir /srv/www/*
   file:
     owner: root
