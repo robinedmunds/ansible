@@ -1,4 +1,4 @@
-- name: Install docker module pip dependencies
+- name: Install docker-compose via pip
   pip:
     name: "{{ item }}"
     state: latest
