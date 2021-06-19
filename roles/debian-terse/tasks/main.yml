@@ -13,6 +13,7 @@
   loop:
     - PyYAML
     - docker
+    - docker-compose
 
 - name: Create dir /srv/www/*
   file:
