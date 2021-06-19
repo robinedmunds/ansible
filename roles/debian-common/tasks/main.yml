@@ -2,9 +2,6 @@
 - name: Apt upgrade system and install essential pkgs
   import_tasks: apt.yml
 
-- name: Symlink /usr/bin/python to python3
-  import_tasks: link_python3.yml
-
 - name: Create sudo user robin
   import_tasks: robin.yml
 
