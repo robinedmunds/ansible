@@ -1,7 +1,7 @@
 ---
 # vars file for debian-common
 - essential_pkgs:
-  - debian:
+  debian:
     [
       "sudo",
       "less",
@@ -20,22 +20,22 @@
       "pigz",
       "python3-pip"
     ]
-  - fedora:
-      [
-        "sudo",
-        "less",
-        "vim",
-        "nano",
-        "tree",
-        "tmux",
-        "htop",
-        "lshw",
-        "redhat-lsb-core",
-        "curl",
-        "wget",
-        "git",
-        "gnupg",
-        "zip",
-        "pigz",
-        "python3-pip"
-      ]
+  fedora:
+    [
+      "sudo",
+      "less",
+      "vim",
+      "nano",
+      "tree",
+      "tmux",
+      "htop",
+      "lshw",
+      "redhat-lsb-core",
+      "curl",
+      "wget",
+      "git",
+      "gnupg",
+      "zip",
+      "pigz",
+      "python3-pip"
+    ]
