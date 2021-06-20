@@ -10,7 +10,7 @@
     direction: incoming
     default: allow
 
-- name: Set logging
+- name: Set logging OFF
   community.general.ufw:
     logging: "off"
 
@@ -20,6 +20,15 @@
     to_port: 1444
     proto: tcp
     comment: Custom sshd port
+
+- name: Copy file ufw-webserver (from debian buster)
+  copy:
+    remote_src: no
+    src: ../files/ufw-webserver
+    dest: /etc/ufw/applications.d/ufw-webserver
+    mode: 0644
+    owner: root
+    group: root
 
 - name: Allow www 80+443
   community.general.ufw:
