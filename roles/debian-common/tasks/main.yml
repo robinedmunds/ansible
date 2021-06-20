@@ -1,15 +1,12 @@
 # tasks file for debian-common
-- name: Apt upgrade system and install essential pkgs
-  import_tasks: apt.yml
-
-- name: Create sudo user robin
-  import_tasks: robin.yml
-
 - name: Set remote hostname to inventory alias
   import_tasks: set_hostname.yml
 
-- name: Lock root user, create recovery account, whoops
+- name: Apt upgrade system and install essential pkgs
+  import_tasks: apt.yml
+
+- name: Create recovery account (whoops), lock root
   import_tasks: lock_root.yml
 
-- name: Reboot target
-  import_tasks: reboot.yml
+- name: Create sudo user robin
+  import_tasks: robin.yml

@@ -8,19 +8,6 @@
     group: root
     mode: 0600
 
-- name: Copy local hardened sshd config to target
-  copy:
-    src: ../files/sshd_config
-    dest: /etc/ssh/sshd_config
-    owner: root
-    group: root
-    mode: 0600
-
-- name: Reload sshd service
-  service:
-    name: sshd
-    state: reloaded
-
 - name: Set motd (displayed on user login)
   copy:
     remote_src: no
@@ -29,3 +16,13 @@
     owner: root
     group: root
     mode: 0644
+
+- name: Copy local hardened sshd config to target
+  copy:
+    src: ../files/sshd_config
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0600
+  notify:
+    - Reload sshd service
