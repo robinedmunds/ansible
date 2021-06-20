@@ -1,7 +1,7 @@
 ---
 # handlers file for debian-harden
-handlers:
-  - name: Reload sshd service
-    service:
-      name: sshd
-      state: reloaded
+- handlers:
+    - name: Reload sshd service
+      service:
+        name: sshd
+        state: reloaded

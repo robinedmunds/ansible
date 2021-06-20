@@ -1,5 +1,5 @@
 ---
 # handlers file for debian-common
-handlers:
-  - name: Reboot target
-    reboot:
+- handlers:
+    - name: Reboot target
+      reboot:
