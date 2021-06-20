@@ -3,7 +3,7 @@
   hosts: all
   become: yes
   roles:
-    - role: debian-common
+    - role: common
     - role: debian-docker
     - role: debian-terse
     - role: debian-harden

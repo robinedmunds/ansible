@@ -3,6 +3,6 @@
   hosts: all
   become: yes
   vars_files:
-    - ["roles/debian-common/vars/family-{{ ansible_facts['os_family'] }}.yml"]
+    - ["roles/common/vars/family-{{ ansible_facts['os_family'] }}.yml"]
   roles:
-    - role: debian-common
+    - role: common
