@@ -23,24 +23,42 @@
     - gnupg
     - lsb-release
 
-- name: Download official docker repo gpg key
+- name: When DEBIAN - Download official docker repo gpg key
   get_url:
     dest: /tmp/docker-repo-gpg.key
     url: https://download.docker.com/linux/debian/gpg
     validate_certs: yes # https
+  when: ansible_distribution == "Debian"
+
+- name: When UBUNTU - Download official docker repo gpg key
+  get_url:
+    dest: /tmp/docker-repo-gpg.key
+    url: https://download.docker.com/linux/ubuntu/gpg
+    validate_certs: yes # https
+  when: ansible_distribution == "Ubuntu"
 
 - name: Install official docker repo gpg key
   shell:
     cmd: cat /tmp/docker-repo-gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
     creates: /usr/share/keyrings/docker-archive-keyring.gpg
 
-- name: Add official docker repo to sources.list.d
+- name: When DEBIAN - Add official docker repo to sources.list.d
   apt_repository:
     state: present
     update_cache: yes
     filename: docker
     repo: deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian buster stable
     validate_certs: yes # https
+  when: ansible_distribution == "Debian"
+
+- name: When UBUNTU - Add official docker repo to sources.list.d
+  apt_repository:
+    state: present
+    update_cache: yes
+    filename: docker
+    repo: deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu focal stable
+    validate_certs: yes # https
+  when: ansible_distribution == "Ubuntu"
 
 - name: Install docker from docker repo
   apt:
