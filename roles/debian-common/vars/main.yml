@@ -1,6 +1,6 @@
 ---
 # vars file for debian-common
-- essential_pkgs:
+essential_pkgs:
   debian:
     [
       "sudo",
