@@ -2,8 +2,13 @@
 - name: Set remote hostname to inventory alias
   import_tasks: set_hostname.yml
 
-- name: Apt upgrade system and install essential pkgs
+- name: When DEBIAN - apt upgrade system and install essential pkgs
   import_tasks: apt.yml
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: When FEDORA - dnf upgrade system and install essential pkgs
+  import_tasks: dnf.yml
+  when: ansible_facts['os_family'] == "RedHat"
 
 - name: Create recovery account (whoops), lock root
   import_tasks: lock_root.yml

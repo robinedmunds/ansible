@@ -1,0 +1,10 @@
+- name: Perform dnf upgrade
+  dnf:
+    update_cache: yes
+    state: latest
+    name: "*"
+
+- name: Install list of essential dnf pkgs
+  dnf:
+    state: latest
+    name: "{{ essential_pkgs['fedora'] }}"
