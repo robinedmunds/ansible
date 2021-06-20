@@ -6,7 +6,7 @@
     shell: /bin/bash
     create_home: yes
     append: yes
-    groups: sudo
+    groups: "{{ sudo_group }}"
     password: $6$1dXelg0r66x/qcnd$EZmR5S3lSVpBdzxVf6pYPENthCcHHO5GEa6oiQz//TC6q3M3qGErU9p2vsMSFGVqFNiVltvYrNmqinSRGzeqv/
     comment: Robin Edmunds
 

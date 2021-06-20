@@ -4,7 +4,7 @@
     shell: /bin/bash
     create_home: yes
     append: yes
-    groups: sudo
+    groups: "{{ sudo_group }}"
     comment: Recovery account with sudo
 
 - name: Copy ed25519 "whoops-recovery" public key
@@ -22,7 +22,7 @@
     shell: /bin/bash
     create_home: yes
     append: yes
-    groups: sudo
+    groups: "{{ sudo_group }}"
     password: $6$iWpFu0lYhL10gNcX$kKvF4SpNd5tE.RaEKfBoUqMWNft42RRhLVd7b21nvcvBt4mYNvLigmVrrhv5Yrfnr9zCSLLhF1P.qwaVuftX.1
     comment: Ansible remote execution
 
