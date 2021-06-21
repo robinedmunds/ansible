@@ -1,0 +1,124 @@
+---
+- name: Transitionary getlegit update playbook. (make fully managed on release of debian 11)
+  become: yes
+  vars:
+    sudo_group: sudo
+    compose_parent_dir: /srv/docker/
+    compose_services:
+      - caddy_reverse_proxy
+      - nextcloud
+      - nginx
+      - strapi_terse
+      - teamspeak
+      - wp_edmunds
+      - znc
+
+  handlers:
+    - name: Reboot target
+      reboot:
+
+  tasks:
+    - name: Create whoops (recovery) user with sudo
+      user:
+        name: whoops
+        shell: /bin/bash
+        create_home: yes
+        append: yes
+        groups: "{{ sudo_group }}"
+        comment: Recovery account with sudo
+
+    - name: Copy ed25519 "whoops-recovery" public key
+      authorized_key:
+        user: whoops
+        key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPoYX577mw7BxZzxpI2s69e31mMjCzyKIqTGJAvv7COd whoops-recovery
+        exclusive: yes
+        manage_dir: yes
+        validate_certs: yes # https source
+
+    - name: Create ansible user with sudo
+      user:
+        name: ansible
+        uid: 2012
+        shell: /bin/bash
+        create_home: yes
+        append: yes
+        groups: "{{ sudo_group }}"
+        password: $6$iWpFu0lYhL10gNcX$kKvF4SpNd5tE.RaEKfBoUqMWNft42RRhLVd7b21nvcvBt4mYNvLigmVrrhv5Yrfnr9zCSLLhF1P.qwaVuftX.1
+        comment: Ansible remote execution
+
+    - name: Copy ed25519 "ansible" public key
+      authorized_key:
+        user: ansible
+        key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMYhUo30YN7m8OvMskGtKyFzTkFaXWlfEzNSgBOm9qlB ansible
+        exclusive: yes
+        manage_dir: yes
+        validate_certs: yes # https source
+
+    - name: Set randomised root password
+      user:
+        name: root
+        password: $6$SS65YO1BI1xl0Lwj$MNJ8ZvI7bHWXC1MkOQS5cLPeBm6Zf4hZY.AK6wbV1fO4MZKtHk3WsTVD3qZ2xrEp.J2O4GjDU9eVJLtxEkPVh/
+
+    - name: Lock the root user
+      user:
+        name: root
+        password_lock: yes
+
+    - name: Set password of whoops (recovery) user
+      user:
+        name: whoops
+        password: $6$Xcuyy3A1t8lKKa/e$wOvPy0mHWvcBYKfGuuCeZUQhdPqVdaY.ShaQ2eoiB6uvDmctJm5LZLkg7x1cMRXtjWrgEhJUIZvrG7nS7Tt0u/
+
+    - name: Install pip for python3
+      apt:
+        update_cache: yes
+        state: latest
+        install_recommends: yes
+        name: python3-pip
+
+    - name: Install docker module pip dependencies
+      pip:
+        state: latest
+        name:
+          - PyYAML
+          - docker-compose
+          - docker
+
+    - name: Stop all docker-compose services
+      community.docker.docker_compose:
+        project_src: "{{ compose_parent_dir }}{{ item }}"
+        state: present
+        stopped: yes
+      loop: "{{ compose_services }}"
+
+    - name: Stop mariadb docker-compose service
+      community.docker.docker_compose:
+        project_src: "{{ compose_parent_dir }}mariadb"
+        state: present
+        stopped: yes
+
+    - name: Pull fresh mariadb image, start mariadb docker-compose service
+      community.docker.docker_compose:
+        pull: yes
+        project_src: "{{ compose_parent_dir }}mariadb"
+        nocache: yes
+        state: present
+        stopped: no
+
+    - name: Pull fresh images, start all docker-compose services
+      community.docker.docker_compose:
+        pull: yes
+        project_src: "{{ compose_parent_dir }}{{ item }}"
+        nocache: yes
+        state: present
+        stopped: no
+      loop: "{{ compose_services }}"
+
+    - name: Perform safe apt upgrade
+      apt:
+        update_cache: yes
+        state: latest
+        install_recommends: yes
+        upgrade: safe
+      notify:
+        - Reboot target
