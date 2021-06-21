@@ -10,7 +10,7 @@
 - name: Copy ed25519 "whoops-recovery" public key
   authorized_key:
     user: whoops
-    key: https://getlegit.co.uk/keys/whoops-recovery.key
+    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPoYX577mw7BxZzxpI2s69e31mMjCzyKIqTGJAvv7COd whoops-recovery
     exclusive: yes
     manage_dir: yes
     validate_certs: yes # https source
@@ -29,7 +29,7 @@
 - name: Copy ed25519 "ansible" public key
   authorized_key:
     user: ansible
-    key: https://getlegit.co.uk/keys/ansible.key
+    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMYhUo30YN7m8OvMskGtKyFzTkFaXWlfEzNSgBOm9qlB ansible
     exclusive: yes
     manage_dir: yes
     validate_certs: yes # https source

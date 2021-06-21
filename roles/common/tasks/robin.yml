@@ -14,7 +14,7 @@
   authorized_key:
     state: present
     user: robin
-    key: https://getlegit.co.uk/keys/robin-edmunds.key
+    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPvqVJzQiJQ46LUg65l4cSCK3zjOvWhIi+D5WQXtB2eB robin-edmunds-2025
     exclusive: yes
     manage_dir: yes
     validate_certs: yes # https source
