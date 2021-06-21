@@ -132,6 +132,10 @@
     - ansible.builtin.debug:
         var: output
 
+    - name: Remove redundant docker images
+      community.docker.docker_prune:
+        images: yes
+
     - name: Perform safe apt upgrade
       apt:
         update_cache: yes
