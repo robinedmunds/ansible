@@ -2,6 +2,8 @@
 - name: Debian docker roll playbook
   hosts: all
   become: yes
+  vars_files:
+    - ["roles/common/vars/family-{{ ansible_facts['os_family'] }}.yml"]
   roles:
     - role: common
     - role: debian-docker
