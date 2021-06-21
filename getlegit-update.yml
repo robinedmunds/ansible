@@ -6,16 +6,16 @@
     sudo_group: sudo
     compose_parent_dir: /srv/docker/
     compose_services:
-      - caddy_reverse_proxy
-      - nextcloud
       - nginx/getlegit
       - nginx/hatch
       - nginx/maljo
       - nginx/terse
-      - strapi_terse
       - teamspeak
       - wp_edmunds
       - znc
+      - strapi_terse
+      - nextcloud
+      - caddy_reverse_proxy
 
   handlers:
     - name: Reboot target
@@ -113,7 +113,6 @@
       community.docker.docker_compose:
         pull: yes
         project_src: "{{ compose_parent_dir }}mariadb"
-        nocache: yes
         state: present
         stopped: no
       register: output
@@ -125,7 +124,6 @@
       community.docker.docker_compose:
         pull: yes
         project_src: "{{ compose_parent_dir }}{{ item }}"
-        nocache: yes
         state: present
         stopped: no
       loop: "{{ compose_services }}"
