@@ -1,5 +1,6 @@
 ---
 - name: Transitionary getlegit update playbook. (make fully managed on release of debian 11)
+  hosts: all
   become: yes
   vars:
     sudo_group: sudo
