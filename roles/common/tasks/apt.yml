@@ -10,5 +10,4 @@
     update_cache: yes
     state: latest
     install_recommends: yes
-    name: "{{ item }}"
-  loop: "{{ essential_pkgs['debian'] }}"
+    name: "{{ essential_pkgs['debian'] }}"
