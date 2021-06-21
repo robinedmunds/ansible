@@ -91,12 +91,20 @@
         state: present
         stopped: yes
       loop: "{{ compose_services }}"
+      register: output
+
+    - ansible.builtin.debug:
+        var: output
 
     - name: Stop mariadb docker-compose service
       community.docker.docker_compose:
         project_src: "{{ compose_parent_dir }}mariadb"
         state: present
         stopped: yes
+      register: output
+
+    - ansible.builtin.debug:
+        var: output
 
     - name: Pull fresh mariadb image, start mariadb docker-compose service
       community.docker.docker_compose:
@@ -105,6 +113,10 @@
         nocache: yes
         state: present
         stopped: no
+      register: output
+
+    - ansible.builtin.debug:
+        var: output
 
     - name: Pull fresh images, start all docker-compose services
       community.docker.docker_compose:
@@ -114,6 +126,10 @@
         state: present
         stopped: no
       loop: "{{ compose_services }}"
+      register: output
+
+    - ansible.builtin.debug:
+        var: output
 
     - name: Perform safe apt upgrade
       apt:
