@@ -8,7 +8,10 @@
     compose_services:
       - caddy_reverse_proxy
       - nextcloud
-      - nginx
+      - nginx/getlegit
+      - nginx/hatch
+      - nginx/maljo
+      - nginx/terse
       - strapi_terse
       - teamspeak
       - wp_edmunds
