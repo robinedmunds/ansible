@@ -7,8 +7,10 @@ all:
           ansible_connection: local
 
     docker:
-      docker.local:
-        ansible_host: docker.local
+      hosts:
+        docker.local:
+          ansible_host: docker.local
+
   vars:
     ansible_user: ansible
     ansible_port: 22
