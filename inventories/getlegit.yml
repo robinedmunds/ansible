@@ -1,7 +1,8 @@
 all:
   hosts:
-    getlegit.co.uk:
-      ansible_host: getlegit.co.uk
+    getlegit:
+      getlegit.co.uk:
+        ansible_host: getlegit.co.uk
   vars:
     ansible_user: ansible
     ansible_port: 1444
