@@ -1,6 +1,6 @@
 ---
 - name: Transitionary getlegit update playbook. (make fully managed on release of debian 11)
-  hosts: all
+  hosts: getlegit
   become: yes
   roles:
     - role: debian-harden
