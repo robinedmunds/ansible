@@ -1,0 +1,45 @@
+---
+- name: Setup ansible controller on debian or fedora
+  hosts: controllers
+  become: yes
+  roles:
+    - role: common
+
+  tasks:
+    - name: When DEBIAN - Install ansible dependencies
+      apt:
+        update_cache: yes
+        state: latest
+        install_recommends: yes
+        name:
+          - python3-pip
+          - sshpass
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: When FEDORA - Install ansible dependencies
+      dnf:
+        state: latest
+        name:
+          - python3-pip
+          - sshpass
+      when: ansible_facts['os_family'] == "RedHat"
+
+    - name: Install ansible via pip
+      pip:
+        state: latest
+        name: ansible
+
+    - name: Install community ansible collections
+      command:
+        cmd: ansible-galaxy collection install "{{ item }}"
+      loop:
+        - community.general
+        - community.docker
+
+    - name: Clone personal ansible playbooks/roles repo
+      git:
+        clone: yes
+        dest: /home/robin/ansible-repo
+        force: yes # discard changed files
+        remote: remote
+        repo: https://github.com/robinedmunds/ansible.git
