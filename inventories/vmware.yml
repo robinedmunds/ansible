@@ -1,7 +1,13 @@
 all:
   hosts:
-    docker.local:
-      ansible_host: docker.local
+    controllers:
+      ansible.local:
+        ansible_host: ansible.local
+        ansible_connection: local
+
+    docker:
+      docker.local:
+        ansible_host: docker.local
   vars:
     ansible_user: ansible
     ansible_port: 22
