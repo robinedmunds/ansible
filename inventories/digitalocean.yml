@@ -4,7 +4,7 @@ all:
       ansible_host: ansible.tersedigital.co.uk
   vars:
     ansible_user: ansible
-    ansible_port: 22
+    ansible_port: 1444
     ansible_connection: ssh
     ansible_python_interpreter: /usr/bin/python3
     primary_url: ansible.tersedigital.co.uk
