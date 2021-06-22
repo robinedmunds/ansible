@@ -2,6 +2,8 @@
 - name: Setup ansible controller on debian or fedora
   hosts: controllers
   become: yes
+  vars_files:
+    - ["roles/common/vars/family-{{ ansible_facts['os_family'] }}.yml"]
   roles:
     - role: common
 
@@ -43,3 +45,10 @@
         force: yes # discard changed files
         remote: remote
         repo: https://github.com/robinedmunds/ansible.git
+
+    - name: Change ownership of ansible playbooks/roles repo
+      file:
+        path: /home/robin/ansible-repo
+        recurse: yes
+        owner: robin
+        group: robin
