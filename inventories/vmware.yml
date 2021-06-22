@@ -1,9 +1,10 @@
 all:
   hosts:
+  children:
     controllers:
-      ansible.local:
-        ansible_host: ansible.local
-        ansible_connection: local
+      hosts:
+        ansible.local:
+          ansible_connection: local
 
     docker:
       docker.local:
