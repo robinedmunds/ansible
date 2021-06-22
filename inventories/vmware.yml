@@ -1,7 +1,7 @@
 all:
   hosts:
     docker.local:
-      ansible_host: 192.168.252.135
+      ansible_host: docker.local
   vars:
     ansible_user: ansible
     ansible_port: 22
