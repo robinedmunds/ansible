@@ -7,5 +7,5 @@
   roles:
     - role: common
     - role: debian-docker
-    - role: debian-terse
+    - role: debian-webserver
     - role: debian-harden

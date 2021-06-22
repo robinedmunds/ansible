@@ -1,4 +1,4 @@
-# tasks file for debian-terse
+# tasks file for debian-webserver
 - name: Install pip for python3
   apt:
     update_cache: yes

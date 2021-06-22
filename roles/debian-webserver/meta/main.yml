@@ -1,6 +1,6 @@
 galaxy_info:
   author: Robin Edmunds
-  description: Customer caddy and nginx template
+  description: Containerised webserver and reverse-proxy with TLS template
   company: tersedigital.co.uk
   license: MIT
   min_ansible_version: 2.11.1
