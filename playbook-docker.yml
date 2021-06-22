@@ -1,5 +1,5 @@
 ---
-- name: Debian docker roll playbook
+- name: Apply common, debian-docker roles to all targets
   hosts: all
   become: yes
   vars_files:
@@ -7,4 +7,3 @@
   roles:
     - role: common
     - role: debian-docker
-    - role: debian-harden

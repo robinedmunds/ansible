@@ -1,5 +1,5 @@
 ---
-- name: Local Debian docker roll playbook
+- name: Provision containerised web-server and reverse-proxy with TLS
   hosts: all
   become: yes
   vars_files:
@@ -7,3 +7,5 @@
   roles:
     - role: common
     - role: debian-docker
+    - role: debian-terse
+    - role: debian-harden
