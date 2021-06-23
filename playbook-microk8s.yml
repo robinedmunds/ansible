@@ -11,7 +11,7 @@
     - name: Install microk8s via snap
       community.general.snap:
         channel: latest/stable
-        classic: yes # loosens security
+        classic: yes # required: loosens security
         name: microk8s
         state: present
 
@@ -24,3 +24,12 @@
       loop:
         - robin
         - ansible
+
+    - name: Enable common microk8s add-ons
+      command:
+        cmd: microk8s enable "{{ item }}"
+      loop:
+        - helm3
+        - storage
+        - registry
+        - "dns:9.9.9.9"
