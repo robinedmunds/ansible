@@ -11,6 +11,11 @@ all:
         docker.local:
           ansible_host: docker.local
 
+    kubernetes:
+      hosts:
+        1.k8s.local:
+          ansible_host: 1.k8s.local
+
   vars:
     ansible_user: ansible
     ansible_port: 22
