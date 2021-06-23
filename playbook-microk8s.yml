@@ -1,0 +1,26 @@
+---
+- name: Setup microk8s kubernetes node on ubuntu
+  hosts: kubernetes
+  become: yes
+  vars_files:
+    - ["roles/common/vars/family-{{ ansible_facts['os_family'] }}.yml"]
+  roles:
+    - role: common
+
+  tasks:
+    - name: Install microk8s via snap
+      community.general.snap:
+        channel: latest/stable
+        classic: yes # loosens security
+        name: microk8s
+        state: present
+
+    - name: Add users to microk8s group
+      user:
+        append: yes
+        groups:
+          - microk8s
+        name: "{{ item }}"
+      loops:
+        - robin
+        - ansible
