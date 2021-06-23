@@ -21,6 +21,6 @@
         groups:
           - microk8s
         name: "{{ item }}"
-      loops:
+      loop:
         - robin
         - ansible
