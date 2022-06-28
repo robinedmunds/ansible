@@ -87,7 +87,7 @@
         argv:
           - /bin/sh
           - "-c"
-          - exec mariadb-dump --opt --user=root --password=$MYSQL_ROOT_PASSWORD --all-databases | gzip > {{ backup_dir }}/databases/all_databases.`date +"%Y%m%d"`.sql.gz
+          - 'exec mariadb-dump --opt --user=root --password=$MYSQL_ROOT_PASSWORD --all-databases' | gzip > {{ backup_dir }}/databases/all_databases.`date +"%Y%m%d"`.sql.gz
         debug: yes
 
     # --------------------------------------------
