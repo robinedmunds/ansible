@@ -84,7 +84,7 @@
     - name: Dump all databases to {{ backup_dir }}/databases
       community.docker.docker_container_exec:
         container: mariadb_db_1
-        command: "sh -c 'exec mariadb-dump --opt --user=root --password="$MYSQL_ROOT_PASSWORD" --all-databases' | gzip > {{ backup_dir }}/databases/all_databases.`date +"%Y%m%d"`.sql.gz"
+        command: "sh -c 'exec mariadb-dump --opt --user=root --password=$MYSQL_ROOT_PASSWORD --all-databases' | gzip > {{ backup_dir }}/databases/all_databases.`date +"%Y%m%d"`.sql.gz"
 
     # --------------------------------------------
 
