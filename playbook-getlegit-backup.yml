@@ -62,7 +62,7 @@
     # $ sudo -u www-data php occ maintenance:mode --on
     - name: Enable nextcloud maintenance mode
       community.docker.docker_container_exec:
-        command: app php occ maintenance:mode --on
+        command: php occ maintenance:mode --on
         container: nextcloud_app_1
         detach: no
         user: www-data
