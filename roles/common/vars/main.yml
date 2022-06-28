@@ -18,7 +18,8 @@ essential_pkgs:
       "gnupg",
       "zip",
       "pigz",
-      "python3-pip"
+      "python3-pip",
+      "rsync"
     ]
   fedora:
     [
@@ -37,5 +38,6 @@ essential_pkgs:
       "gnupg",
       "zip",
       "pigz",
-      "python3-pip"
+      "python3-pip",
+      "rsync"
     ]
