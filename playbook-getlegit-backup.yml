@@ -48,6 +48,7 @@
 
     - name: Backup www directory using rsync
       ansible.posix.synchronize:
+        mode: pull # https://docs.ansible.com/ansible/latest/collections/ansible/posix/synchronize_module.html#parameter-mode
         archive: yes
         dest: "{{ backup_dir }}/www/"
         src: /srv/www/
