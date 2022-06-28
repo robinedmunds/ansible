@@ -1,0 +1,233 @@
+---
+- name: Backup all managed, containerised services on getlegit server
+  hosts: getlegit
+  become: yes
+  vars:
+    sudo_group: sudo
+    compose_parent_dir: /srv/docker/
+    backup_dir: /srv/backups
+    compose_services:
+      - nginx/getlegit
+      - nginx/hatch
+      - nginx/maljo
+      - nginx/terse
+      - teamspeak
+      - wp_edmunds
+      - znc
+      - strapi_terse
+      - nextcloud
+      - caddy_reverse_proxy
+
+  tasks:
+    - name: Create directory for database backups
+      ansible.builtin.file:
+        path: "{{ backup_dir }}/databases"
+        state: directory
+        mode: "0770"
+
+    - name: Create directory for service volume backups
+      ansible.builtin.file:
+        path: "{{ backup_dir }}/volumes"
+        state: directory
+        mode: "0770"
+
+    - name: Create directory for www backups
+      ansible.builtin.file:
+        path: "{{ backup_dir }}/www"
+        state: directory
+        mode: "0770"
+
+    - name: Set ownership of backups directory
+      ansible.builtin.file:
+        path: "{{ backup_dir }}"
+        owner: ansible
+        group: docker
+        recurse: yes
+
+    # --------------------------------------------
+
+    - name: Backup www directory using rsync
+      ansible.posix.synchronize:
+        archive: yes
+        dest: "{{ backup_dir }}/www/"
+        src: /srv/www/
+
+    # --------------------------------------------
+
+    # $ sudo -u www-data php occ maintenance:mode --on
+    - name: Enable nextcloud maintenance mode
+      community.docker.docker_container_exec:
+        command: app php occ maintenance:mode --on
+        container: nextcloud
+        detach: no
+        user: www-data
+
+    # --------------------------------------------
+
+    - name: Stop all docker-compose services bar mariadb
+      community.docker.docker_compose:
+        project_src: "{{ compose_parent_dir }}{{ item }}"
+        state: present
+        stopped: yes
+      loop: "{{ compose_services }}"
+      register: output
+
+    - ansible.builtin.debug:
+        var: output
+
+    # --------------------------------------------
+
+    - name: Dump all databases to {{ backup_dir }}/databases
+      community.docker.docker_container_exec:
+        container: mariadb_db_1
+        command: mariadb-dump --opt --user=root --password="$MYSQL_ROOT_PASSWORD" --all-databases | gzip > {{ backup_dir }}/databases/all_databases.`date +"%Y%m%d"`.sql.gz
+
+    # --------------------------------------------
+
+    - name: Mount managed teamspeak volume(s). Copy files to backup directory
+      community.docker.docker_container:
+        auto_remove: yes
+        cleanup: yes
+        command:
+          - apk add rsync
+          - mkdir --parents --verbose /backup/teamspeak/var/ts3server
+          - rsync --archive --verbose /var/ts3server/ /backup/teamspeak/var/ts3server/
+        detach: no
+        image: alpine:latest
+        interactive: no
+        keep_volumes: no
+        name: copy_files
+        pull: yes
+        purge_networks: yes
+        restart: no
+        restart_policy: "no"
+        state: started
+        user: ansible:docker
+        volumes:
+          - "{{ backup_dir }}/volumes/:/backup/"
+        volumes_from:
+          - teamspeak
+
+    - name: Mount managed edmunds wordpress volume(s). Copy files to backup directory
+      community.docker.docker_container:
+        auto_remove: yes
+        cleanup: yes
+        command:
+          - apk add rsync
+          - mkdir --parents --verbose /backup/wp_edmunds/var/www/html
+          - rsync --archive --verbose /var/www/html/ /backup/wp_edmunds/var/www/html/
+        detach: no
+        image: alpine:latest
+        interactive: no
+        keep_volumes: no
+        name: copy_files
+        pull: yes
+        purge_networks: yes
+        restart: no
+        restart_policy: "no"
+        state: started
+        user: ansible:docker
+        volumes:
+          - "{{ backup_dir }}/volumes/:/backup/"
+        volumes_from:
+          - wp_edmunds_wp_1
+
+    - name: Mount managed ZNC volume(s). Copy files to backup directory
+      community.docker.docker_container:
+        auto_remove: yes
+        cleanup: yes
+        command:
+          - apk add rsync
+          - mkdir --parents --verbose /backup/znc/znc-data
+          - rsync --archive --verbose /znc-data/ /backup/znc/znc-data/
+        detach: no
+        image: alpine:latest
+        interactive: no
+        keep_volumes: no
+        name: copy_files
+        pull: yes
+        purge_networks: yes
+        restart: no
+        restart_policy: "no"
+        state: started
+        user: ansible:docker
+        volumes:
+          - "{{ backup_dir }}/volumes/:/backup/"
+        volumes_from:
+          - znc_irc_1
+
+    - name: Mount managed caddy_reverse_proxy volume(s). Copy files to backup directory
+      community.docker.docker_container:
+        auto_remove: yes
+        cleanup: yes
+        command:
+          - apk add rsync
+          - mkdir --parents --verbose /backup/caddy_reverse_proxy/data
+          - mkdir --parents --verbose /backup/caddy_reverse_proxy/config
+          - rsync --archive --verbose /data/ /backup/caddy_reverse_proxy/data/
+          - rsync --archive --verbose /config/ /backup/caddy_reverse_proxy/config/
+        detach: no
+        image: alpine:latest
+        interactive: no
+        keep_volumes: no
+        name: copy_files
+        pull: yes
+        purge_networks: yes
+        restart: no
+        restart_policy: "no"
+        state: started
+        user: ansible:docker
+        volumes:
+          - "{{ backup_dir }}/volumes/:/backup/"
+        volumes_from:
+          - caddy_reverse_proxy
+
+    - name: Mount managed strapi_terse volume(s). Copy files to backup directory
+      community.docker.docker_container:
+        auto_remove: yes
+        cleanup: yes
+        command:
+          - apk add rsync
+          - mkdir --parents --verbose /backup/strapi_terse/srv/app
+          - rsync --archive --verbose /srv/app/ /backup/strapi_terse/srv/app/
+        detach: no
+        image: alpine:latest
+        interactive: no
+        keep_volumes: no
+        name: copy_files
+        pull: yes
+        purge_networks: yes
+        restart: no
+        restart_policy: "no"
+        state: started
+        user: ansible:docker
+        volumes:
+          - "{{ backup_dir }}/volumes/:/backup/"
+        volumes_from:
+          - strapi_terse
+
+    - name: Mount managed nextcloud_app_1 volume(s). Copy files to backup directory
+      community.docker.docker_container:
+        auto_remove: yes
+        cleanup: yes
+        command:
+          - apk add rsync
+          - mkdir --parents --verbose /backup/nextcloud/var/www/html
+          - rsync --archive --verbose /var/www/html/ /backup/nextcloud/var/www/html/
+        detach: no
+        image: alpine:latest
+        interactive: no
+        keep_volumes: no
+        name: copy_files
+        pull: yes
+        purge_networks: yes
+        restart: no
+        restart_policy: "no"
+        state: started
+        user: ansible:docker
+        volumes:
+          - "{{ backup_dir }}/volumes/:/backup/"
+        volumes_from:
+          - nextcloud_app_1
+
+    # --------------------------------------------
