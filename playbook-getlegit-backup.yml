@@ -64,7 +64,6 @@
       community.docker.docker_container_exec:
         command: php occ maintenance:mode --on
         container: nextcloud_app_1
-        detach: no
         user: www-data
 
     # --------------------------------------------
