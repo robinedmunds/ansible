@@ -95,7 +95,9 @@
           - name: network1
         state: started
         volumes: "{{ backup_dir }}/databases:/backup"
-        volumes_from: mariadb_db_1
+        volumes_from:
+          - mariadb_db_1
+        purge_networks: yes
 
     # - name: Dump all databases to {{ backup_dir }}/databases
     #   community.docker.docker_container_exec:
