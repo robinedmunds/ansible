@@ -92,7 +92,7 @@
         keep_volumes: no
         name: mariadb_temp
         networks:
-          - network1
+          - name: network1
         state: started
         volumes: "{{ backup_dir }}/databases:/backup"
         volumes_from: mariadb_db_1
