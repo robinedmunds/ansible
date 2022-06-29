@@ -83,7 +83,6 @@
 
     - name: Dump all databases to {{ backup_dir }}/databases
       community.docker.docker_container:
-        auto_remove: yes
         cleanup: yes
         command: exec mariadb-dump --opt --host=mariadb_db_1 --user=root --password=$MYSQL_ROOT_PASSWORD --all-databases | gzip > /backup/databases/all_databases.`date +"%Y%m%d"`.sql.gz
         detach: no
