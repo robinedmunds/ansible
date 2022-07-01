@@ -114,7 +114,8 @@
       community.docker.docker_container:
         cleanup: yes
         command:
-          - apk update && apk add rsync
+          - apk update
+          - apk add rsync
           - mkdir --parents --verbose /backup/teamspeak/var/ts3server
           - rsync --archive --verbose /var/ts3server/ /backup/teamspeak/var/ts3server/
         detach: no
@@ -136,7 +137,8 @@
       community.docker.docker_container:
         cleanup: yes
         command:
-          - apk update && apk add rsync
+          - apk update
+          - apk add rsync
           - mkdir --parents --verbose /backup/wp_edmunds/var/www/html
           - rsync --archive --verbose /var/www/html/ /backup/wp_edmunds/var/www/html/
         detach: no
@@ -158,7 +160,8 @@
       community.docker.docker_container:
         cleanup: yes
         command:
-          - apk update && apk add rsync
+          - apk update
+          - apk add rsync
           - mkdir --parents --verbose /backup/znc/znc-data
           - rsync --archive --verbose /znc-data/ /backup/znc/znc-data/
         detach: no
@@ -180,7 +183,8 @@
       community.docker.docker_container:
         cleanup: yes
         command:
-          - apk update && apk add rsync
+          - apk update
+          - apk add rsync
           - mkdir --parents --verbose /backup/caddy_reverse_proxy/data
           - mkdir --parents --verbose /backup/caddy_reverse_proxy/config
           - rsync --archive --verbose /data/ /backup/caddy_reverse_proxy/data/
@@ -204,7 +208,8 @@
       community.docker.docker_container:
         cleanup: yes
         command:
-          - apk update && apk add rsync
+          - apk update
+          - apk add rsync
           - mkdir --parents --verbose /backup/strapi_terse/srv/app
           - rsync --archive --verbose /srv/app/ /backup/strapi_terse/srv/app/
         detach: no
@@ -226,7 +231,8 @@
       community.docker.docker_container:
         cleanup: yes
         command:
-          - apk update && apk add rsync
+          - apk update
+          - apk add rsync
           - mkdir --parents --verbose /backup/nextcloud/var/www/html
           - rsync --archive --verbose /var/www/html/ /backup/nextcloud/var/www/html/
         detach: no
