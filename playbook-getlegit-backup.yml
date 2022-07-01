@@ -154,11 +154,7 @@
     - name: Mount managed ZNC volume(s). Copy files to backup directory
       community.docker.docker_container:
         cleanup: yes
-        command:
-          - apk update
-          - apk add rsync
-          - mkdir --parents --verbose /backup/znc/znc-data
-          - rsync --archive --verbose /znc-data/ /backup/znc/znc-data/
+        command: sh -c 'apk update && apk add rsync && mkdir --parents --verbose /backup/znc/znc-data && rsync --archive --verbose /znc-data/ /backup/znc/znc-data/'
         detach: no
         image: alpine:latest
         interactive: no
@@ -176,13 +172,7 @@
     - name: Mount managed caddy_reverse_proxy volume(s). Copy files to backup directory
       community.docker.docker_container:
         cleanup: yes
-        command:
-          - apk update
-          - apk add rsync
-          - mkdir --parents --verbose /backup/caddy_reverse_proxy/data
-          - mkdir --parents --verbose /backup/caddy_reverse_proxy/config
-          - rsync --archive --verbose /data/ /backup/caddy_reverse_proxy/data/
-          - rsync --archive --verbose /config/ /backup/caddy_reverse_proxy/config/
+        command: sh -c 'apk update && apk add rsync && mkdir --parents --verbose /backup/caddy_reverse_proxy/data && mkdir --parents --verbose /backup/caddy_reverse_proxy/config && rsync --archive --verbose /data/ /backup/caddy_reverse_proxy/data/ && rsync --archive --verbose /config/ /backup/caddy_reverse_proxy/config/'
         detach: no
         image: alpine:latest
         interactive: no
@@ -200,11 +190,7 @@
     - name: Mount managed strapi_terse volume(s). Copy files to backup directory
       community.docker.docker_container:
         cleanup: yes
-        command:
-          - apk update
-          - apk add rsync
-          - mkdir --parents --verbose /backup/strapi_terse/srv/app
-          - rsync --archive --verbose /srv/app/ /backup/strapi_terse/srv/app/
+        command: sh -c 'apk update && apk add rsync && mkdir --parents --verbose /backup/strapi_terse/srv/app && rsync --archive --verbose /srv/app/ /backup/strapi_terse/srv/app/'
         detach: no
         image: alpine:latest
         interactive: no
@@ -222,11 +208,7 @@
     - name: Mount managed nextcloud_app_1 volume(s). Copy files to backup directory
       community.docker.docker_container:
         cleanup: yes
-        command:
-          - apk update
-          - apk add rsync
-          - mkdir --parents --verbose /backup/nextcloud/var/www/html
-          - rsync --archive --verbose /var/www/html/ /backup/nextcloud/var/www/html/
+        command: sh -c 'apk update && apk add rsync && mkdir --parents --verbose /backup/nextcloud/var/www/html && rsync --archive --verbose /var/www/html/ /backup/nextcloud/var/www/html/'
         detach: no
         image: alpine:latest
         interactive: no
