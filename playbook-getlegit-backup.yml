@@ -137,10 +137,7 @@
     - name: Mount managed edmunds wordpress volume(s). Copy files to backup directory
       community.docker.docker_container:
         cleanup: yes
-        command:
-          - apk update && apk add rsync
-          - mkdir --parents --verbose /backup/wp_edmunds/var/www/html
-          - rsync --archive --verbose /var/www/html/ /backup/wp_edmunds/var/www/html/
+        command: sh -c 'apk update && apk add rsync && mkdir --parents --verbose /backup/wp_edmunds/var/www/html && rsync --archive --verbose /var/www/html/ /backup/wp_edmunds/var/www/html/'
         command_handling: correct
         detach: no
         image: alpine:latest
