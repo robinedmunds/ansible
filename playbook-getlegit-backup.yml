@@ -137,10 +137,9 @@
       community.docker.docker_container:
         cleanup: yes
         command:
-          - apk update
-          - apk add rsync
-          - mkdir --parents --verbose /backup/wp_edmunds/var/www/html
-          - rsync --archive --verbose /var/www/html/ /backup/wp_edmunds/var/www/html/
+          - sh -c 'apk update && apk add rsync'
+          - sh -c 'mkdir --parents --verbose /backup/wp_edmunds/var/www/html'
+          - sh -c 'rsync --archive --verbose /var/www/html/ /backup/wp_edmunds/var/www/html/'
         detach: no
         image: alpine:latest
         interactive: no
