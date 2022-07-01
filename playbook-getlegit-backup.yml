@@ -114,9 +114,9 @@
       community.docker.docker_container:
         cleanup: yes
         command:
-          - apk update
-          - apk add rsync
-          - mkdir --parents --verbose /backup/teamspeak/var/ts3server
+          - apk update &&
+          - apk add rsync &&
+          - mkdir --parents --verbose /backup/teamspeak/var/ts3server &&
           - rsync --archive --verbose /var/ts3server/ /backup/teamspeak/var/ts3server/
         detach: no
         image: alpine:latest
