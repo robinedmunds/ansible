@@ -113,11 +113,7 @@
     - name: Mount managed teamspeak volume(s). Copy files to backup directory
       community.docker.docker_container:
         cleanup: yes
-        command:
-          - apk update &&
-          - apk add rsync &&
-          - mkdir --parents --verbose /backup/teamspeak/var/ts3server &&
-          - rsync --archive --verbose /var/ts3server/ /backup/teamspeak/var/ts3server/
+        command: apk update && apk add rsync && mkdir --parents --verbose /backup/teamspeak/var/ts3server && rsync --archive --verbose /var/ts3server/ /backup/teamspeak/var/ts3server/
         detach: no
         image: alpine:latest
         interactive: no
