@@ -128,7 +128,6 @@
         restart: no
         restart_policy: "no"
         state: started
-        user: ansible:docker
         volumes:
           - "{{ backup_dir }}/volumes/:/backup/"
         volumes_from:
@@ -152,7 +151,6 @@
         restart: no
         restart_policy: "no"
         state: started
-        user: ansible:docker
         volumes:
           - "{{ backup_dir }}/volumes/:/backup/"
         volumes_from:
@@ -176,7 +174,6 @@
         restart: no
         restart_policy: "no"
         state: started
-        user: ansible:docker
         volumes:
           - "{{ backup_dir }}/volumes/:/backup/"
         volumes_from:
@@ -202,7 +199,6 @@
         restart: no
         restart_policy: "no"
         state: started
-        user: ansible:docker
         volumes:
           - "{{ backup_dir }}/volumes/:/backup/"
         volumes_from:
@@ -226,7 +222,6 @@
         restart: no
         restart_policy: "no"
         state: started
-        user: ansible:docker
         volumes:
           - "{{ backup_dir }}/volumes/:/backup/"
         volumes_from:
@@ -250,7 +245,6 @@
         restart: no
         restart_policy: "no"
         state: started
-        user: ansible:docker
         volumes:
           - "{{ backup_dir }}/volumes/:/backup/"
         volumes_from:
