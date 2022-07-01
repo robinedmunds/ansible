@@ -96,7 +96,6 @@
         volumes: "{{ backup_dir }}/databases:/backup"
         volumes_from:
           - mariadb_db_1
-        purge_networks: yes
 
     # - name: Dump all databases to {{ backup_dir }}/databases
     #   community.docker.docker_container_exec:
@@ -125,7 +124,6 @@
     #     keep_volumes: no
     #     name: copy_files
     #     pull: yes
-    #     purge_networks: yes
     #     restart: no
     #     restart_policy: "no"
     #     state: started
@@ -145,7 +143,6 @@
         keep_volumes: no
         name: copy_files
         pull: yes
-        # purge_networks: yes
         restart: no
         restart_policy: "no"
         state: started
@@ -168,7 +165,6 @@
         keep_volumes: no
         name: copy_files
         pull: yes
-        purge_networks: yes
         restart: no
         restart_policy: "no"
         state: started
@@ -193,7 +189,6 @@
         keep_volumes: no
         name: copy_files
         pull: yes
-        purge_networks: yes
         restart: no
         restart_policy: "no"
         state: started
@@ -216,7 +211,6 @@
         keep_volumes: no
         name: copy_files
         pull: yes
-        purge_networks: yes
         restart: no
         restart_policy: "no"
         state: started
@@ -239,7 +233,6 @@
         keep_volumes: no
         name: copy_files
         pull: yes
-        purge_networks: yes
         restart: no
         restart_policy: "no"
         state: started
