@@ -145,7 +145,7 @@
         keep_volumes: no
         name: copy_files
         pull: yes
-        purge_networks: yes
+        # purge_networks: yes
         restart: no
         restart_policy: "no"
         state: started
