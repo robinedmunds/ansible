@@ -97,40 +97,26 @@
         volumes_from:
           - mariadb_db_1
 
-    # - name: Dump all databases to {{ backup_dir }}/databases
-    #   community.docker.docker_container_exec:
-    #     container: mariadb_db_1
-    #     argv:
-    #       - /bin/sh
-    #       - "-c"
-    #       - 'exec mariadb-dump --opt--user=root --password=$MYSQL_ROOT_PASSWORD --all-databases' |
-    #       - gzip > {{ backup_dir }}/databases/all_databases.`date +"%Y%m%d"`.sql.gz
-    #     debug: yes
-
     # --------------------------------------------
 
-    # - name: Mount managed teamspeak volume(s). Copy files to backup directory
-    #   community.docker.docker_container:
-    #     cleanup: yes
-    #     command:
-    #       - apk update
-    #       - apk add rsync
-    #       - mkdir --parents --verbose /backup/teamspeak/var/ts3server
-    #       - rsync --archive --verbose /var/ts3server/ /backup/teamspeak/var/ts3server/
-    #     command_handling: correct
-    #     detach: no
-    #     image: alpine:latest
-    #     interactive: no
-    #     keep_volumes: no
-    #     name: copy_files
-    #     pull: yes
-    #     restart: no
-    #     restart_policy: "no"
-    #     state: started
-    #     volumes:
-    #       - "{{ backup_dir }}/volumes/:/backup/"
-    #     volumes_from:
-    #       - teamspeak
+    - name: Mount managed teamspeak volume(s). Copy files to backup directory
+      community.docker.docker_container:
+        cleanup: yes
+        command: sh -c 'apk update && apk add rsync && mkdir --parents --verbose /backup/teamspeak/var/ts3server && rsync --archive --verbose /var/ts3server/ /backup/teamspeak/var/ts3server/'
+        command_handling: correct
+        detach: no
+        image: alpine:latest
+        interactive: no
+        keep_volumes: no
+        name: copy_files
+        pull: yes
+        restart: no
+        restart_policy: "no"
+        state: started
+        volumes:
+          - "{{ backup_dir }}/volumes/:/backup/"
+        volumes_from:
+          - teamspeak
 
     - name: Mount managed edmunds wordpress volume(s). Copy files to backup directory
       community.docker.docker_container:
