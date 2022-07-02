@@ -210,3 +210,11 @@
           - nextcloud_app_1
 
     # --------------------------------------------
+
+    - name: Copy remote backup dir to ansible controller
+      ansible.posix.synchronize:
+        archive: yes
+        compress: yes
+        dest: /home/robin/backup
+        mode: pull
+        src: "{{ backup_dir }}"
