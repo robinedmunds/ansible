@@ -40,7 +40,7 @@
     - name: Mount new teamspeak volume(s). Restore files from backup
       community.docker.docker_container:
         cleanup: yes
-        command: sh -c 'tar -xvf /restore/backups.tar backups/volumes/teamspeak/ -C /'
+        command: sh -c 'tar -xvf /restore/backups.tar backups/volumes/teamspeak/* -C /'
         command_handling: correct
         detach: no
         image: alpine:latest
@@ -58,7 +58,7 @@
     - name: Mount new znc volume(s). Restore files from backup
       community.docker.docker_container:
         cleanup: yes
-        command: sh -c 'tar -xvf /restore/backups.tar backups/volumes/znc/ -C /'
+        command: sh -c 'tar -xvf /restore/backups.tar backups/volumes/znc/* -C /'
         command_handling: correct
         detach: no
         image: alpine:latest
@@ -72,4 +72,22 @@
         volumes:
           - "{{ restore_dir }}/:/restore/"
           - znc:/znc-data
+
+    - name: Mount new wordpress volume(s). Restore files from backup
+      community.docker.docker_container:
+        cleanup: yes
+        command: sh -c 'tar -xvf /restore/backups.tar backups/volumes/wp_edmunds/* -C /'
+        command_handling: correct
+        detach: no
+        image: alpine:latest
+        interactive: no
+        keep_volumes: no
+        name: copy_files
+        pull: yes
+        restart: no
+        restart_policy: "no"
+        state: started
+        volumes:
+          - "{{ restore_dir }}/:/restore/"
+          - wp_edmunds:/var/www/html
 
