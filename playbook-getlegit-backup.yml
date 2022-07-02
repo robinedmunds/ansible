@@ -215,6 +215,6 @@
       ansible.posix.synchronize:
         archive: yes
         compress: yes
-        dest: /home/robin/backup
+        dest: /tmp
         mode: pull
         src: "{{ backup_dir }}"
