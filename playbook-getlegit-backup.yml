@@ -218,3 +218,4 @@
         dest: /tmp
         mode: pull
         src: "{{ backup_dir }}"
+        rsync_path: /usr/bin/rsync
