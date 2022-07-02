@@ -161,15 +161,16 @@
         state: present
         type: ed25519
 
-    - name: Add github/robinedmunds ssh key to ssh-agent
-      ansible.builtin.shell:
-        chdir: /home/ansible/.ssh
-        cmd: eval "$(ssh-agent -s)" && ssh-add id_ed25519
+    # - name: Add github/robinedmunds ssh key to ssh-agent
+    #   ansible.builtin.shell:
+    #     chdir: /home/ansible/.ssh
+    #     cmd: eval "$(ssh-agent -s)" && ssh-add id_ed25519
 
     - name: Clone robinedmunds/getlegit-docker-compose repo (read only)
       ansible.builtin.git:
         update: yes
         clone: yes
+        key_file: /home/ansible/.ssh/id_ed25519
         remote: remote
         repo: git@github.com:robinedmunds/getlegit-docker-compose.git
         dest: /srv/getlegit-docker-compose
