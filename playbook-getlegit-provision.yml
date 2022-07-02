@@ -128,3 +128,22 @@
           - "{{ restore_dir }}/:/restore/"
           - strapi_terse:/srv/app
 
+    - name: Mount new nextcloud_app_1 volume(s). Restore files from backup
+      community.docker.docker_container:
+        cleanup: yes
+        command: sh -c 'tar -xvf /restore/backups.tar backups/volumes/nextcloud/ -C / --strip-components=3'
+        command_handling: correct
+        detach: no
+        image: alpine:latest
+        interactive: no
+        keep_volumes: no
+        name: copy_files
+        pull: yes
+        restart: no
+        restart_policy: "no"
+        state: started
+        volumes:
+          - "{{ restore_dir }}/:/restore/"
+          - nextcloud_html:/var/www/html
+          - nextcloud_data:/var/www/html/data
+
