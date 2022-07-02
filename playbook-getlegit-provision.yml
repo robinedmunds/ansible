@@ -147,3 +147,30 @@
           - nextcloud_html:/var/www/html
           - nextcloud_data:/var/www/html/data
 
+    # TODO: clone docker-compose repo, start mariadb service, restore database
+
+    - name: Generate ssh key for use with github
+      community.crypto.openssh_keypair:
+        comment: github/robinedmunds
+        force: no # do not overwrite existing key
+        group: docker
+        mode: 0640
+        owner: ansible
+        path: /home/ansible/.ssh/id_ed25519
+        regenerate: never # do not overwrite existing key
+        state: present
+        type: ed25519
+
+    - name: Add github/robinedmunds ssh key to ssh-agent
+      ansible.builtin.shell:
+        chdir: /home/ansible/.ssh
+        cmd: eval "$(ssh-agent -s)" && ssh-add id_ed25519
+
+    - name: Clone robinedmunds/getlegit-docker-compose repo (read only)
+      ansible.builtin.git:
+        update: yes
+        clone: yes
+        remote: remote
+        repo: git@github.com:robinedmunds/getlegit-docker-compose.git
+        dest: /srv/getlegit-docker-compose
+
