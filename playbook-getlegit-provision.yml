@@ -55,3 +55,21 @@
           - "{{ restore_dir }}/:/restore/"
           - teamspeak:/var/ts3server
 
+    - name: Mount new znc volume(s). Restore files from backup
+      community.docker.docker_container:
+        cleanup: yes
+        command: sh -c 'tar -xvf /restore/backups.tar backups/volumes/znc/ -C /'
+        command_handling: correct
+        detach: no
+        image: alpine:latest
+        interactive: no
+        keep_volumes: no
+        name: copy_files
+        pull: yes
+        restart: no
+        restart_policy: "no"
+        state: started
+        volumes:
+          - "{{ restore_dir }}/:/restore/"
+          - znc:/znc-data
+
