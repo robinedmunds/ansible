@@ -73,7 +73,7 @@
           - "{{ restore_dir }}/:/restore/"
           - znc:/znc-data
 
-    - name: Mount new wordpress volume(s). Restore files from backup
+    - name: Mount new wp_edmunds volume(s). Restore files from backup
       community.docker.docker_container:
         cleanup: yes
         command: sh -c 'tar -xvf /restore/backups.tar backups/volumes/wp_edmunds/ -C / --strip-components=3'
@@ -90,4 +90,41 @@
         volumes:
           - "{{ restore_dir }}/:/restore/"
           - wp_edmunds:/var/www/html
+
+    - name: Mount new caddy_reverse_proxy volume(s). Restore files from backup
+      community.docker.docker_container:
+        cleanup: yes
+        command: sh -c 'tar -xvf /restore/backups.tar backups/volumes/caddy_reverse_proxy/ -C / --strip-components=3'
+        command_handling: correct
+        detach: no
+        image: alpine:latest
+        interactive: no
+        keep_volumes: no
+        name: copy_files
+        pull: yes
+        restart: no
+        restart_policy: "no"
+        state: started
+        volumes:
+          - "{{ restore_dir }}/:/restore/"
+          - caddy_reverse_proxy_data:/data
+          - caddy_reverse_proxy_config:/config
+
+    - name: Mount new strapi_terse volume(s). Restore files from backup
+      community.docker.docker_container:
+        cleanup: yes
+        command: sh -c 'tar -xvf /restore/backups.tar backups/volumes/strapi_terse/ -C / --strip-components=3'
+        command_handling: correct
+        detach: no
+        image: alpine:latest
+        interactive: no
+        keep_volumes: no
+        name: copy_files
+        pull: yes
+        restart: no
+        restart_policy: "no"
+        state: started
+        volumes:
+          - "{{ restore_dir }}/:/restore/"
+          - strapi_terse:/srv/app
 
