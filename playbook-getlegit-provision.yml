@@ -156,7 +156,7 @@
         group: docker
         mode: 0640
         owner: ansible
-        path: /home/ansible/.ssh/id_ed25519
+        path: /srv/keys/id_ed25519
         regenerate: never # do not overwrite existing key
         state: present
         type: ed25519
@@ -170,7 +170,7 @@
       ansible.builtin.git:
         update: yes
         clone: yes
-        key_file: /home/ansible/.ssh/id_ed25519
+        key_file: /srv/keys/id_ed25519
         remote: remote
         repo: git@github.com:robinedmunds/getlegit-docker-compose.git
         dest: /srv/getlegit-docker-compose
