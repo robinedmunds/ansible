@@ -3,6 +3,8 @@
   hosts: getlegit
   become: yes
   roles:
+    - role: common
+    - role: debian-docker
     - role: debian-harden
   vars:
     sudo_group: sudo
