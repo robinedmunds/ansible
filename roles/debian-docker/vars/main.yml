@@ -1,7 +1,5 @@
 ---
 # vars file for debian-docker
-docker_compose_url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
-
 docker_admins:
   - ansible
   - robin
