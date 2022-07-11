@@ -26,21 +26,6 @@
       reboot:
 
   tasks:
-    - name: Install pip for python3
-      apt:
-        update_cache: yes
-        state: latest
-        install_recommends: yes
-        name: python3-pip
-
-    - name: Install docker module pip dependencies
-      pip:
-        state: latest
-        name:
-          - PyYAML
-          - docker-compose
-          - docker
-
     - name: Stop all docker-compose services
       community.docker.docker_compose:
         project_src: "{{ compose_parent_dir }}/{{ item }}"
