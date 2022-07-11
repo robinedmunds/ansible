@@ -8,7 +8,7 @@
     - role: debian-harden
   vars:
     sudo_group: sudo
-    compose_parent_dir: /srv/docker/
+    compose_parent_dir: /srv/getlegit-docker-compose
     compose_services:
       - nginx/getlegit
       - nginx/hatch
@@ -94,7 +94,7 @@
 
     - name: Stop all docker-compose services
       community.docker.docker_compose:
-        project_src: "{{ compose_parent_dir }}{{ item }}"
+        project_src: "{{ compose_parent_dir }}/{{ item }}"
         state: present
         stopped: yes
       loop: "{{ compose_services }}"
@@ -105,7 +105,7 @@
 
     - name: Stop mariadb docker-compose service
       community.docker.docker_compose:
-        project_src: "{{ compose_parent_dir }}mariadb"
+        project_src: "{{ compose_parent_dir }}/mariadb"
         state: present
         stopped: yes
       register: output
@@ -116,7 +116,7 @@
     - name: Pull fresh mariadb image, start mariadb docker-compose service
       community.docker.docker_compose:
         pull: yes
-        project_src: "{{ compose_parent_dir }}mariadb"
+        project_src: "{{ compose_parent_dir }}/mariadb"
         state: present
         stopped: no
       register: output
@@ -127,7 +127,7 @@
     - name: Pull fresh images, start all docker-compose services
       community.docker.docker_compose:
         pull: yes
-        project_src: "{{ compose_parent_dir }}{{ item }}"
+        project_src: "{{ compose_parent_dir }}/{{ item }}"
         state: present
         stopped: no
       loop: "{{ compose_services }}"
