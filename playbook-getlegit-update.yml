@@ -26,6 +26,36 @@
       reboot:
 
   tasks:
+    - name: Generate ssh key for use with github
+      community.crypto.openssh_keypair:
+        comment: github/robinedmunds
+        force: no # do NOT overwrite existing key
+        group: docker
+        mode: 0640
+        owner: ansible
+        path: /srv/keys/id_ed25519
+        regenerate: never # do NOT overwrite existing key
+        state: present
+        type: ed25519
+
+    - name: Clone robinedmunds/getlegit-docker-compose repo
+      ansible.builtin.git:
+        accept_newhostkey: yes
+        update: yes
+        clone: yes
+        key_file: /srv/keys/id_ed25519
+        remote: remote
+        repo: git@github.com:robinedmunds/getlegit-docker-compose.git
+        dest: /srv/getlegit-docker-compose
+
+    - name: Set ownership of getlegit-docker-compose repo files
+      ansible.builtin.file:
+        group: docker
+        mode: 0664
+        owner: robin
+        path: /srv/getlegit-docker-compose
+        recurse: yes
+
     - name: Stop all docker-compose services
       community.docker.docker_compose:
         project_src: "{{ compose_parent_dir }}/{{ item }}"
