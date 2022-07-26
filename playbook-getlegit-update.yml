@@ -6,20 +6,7 @@
     - role: common
     - role: debian-docker
     - role: debian-harden
-  vars:
-    sudo_group: sudo
-    compose_parent_dir: /srv/getlegit-docker-compose
-    compose_services:
-      - nginx/getlegit
-      - nginx/hatch
-      - nginx/maljo
-      - nginx/terse
-      - teamspeak
-      - wp_edmunds
-      - znc
-      - strapi_terse
-      - nextcloud
-      - caddy_reverse_proxy
+  vars_files: ./vars/getlegit.yml
 
   handlers:
     - name: Reboot target

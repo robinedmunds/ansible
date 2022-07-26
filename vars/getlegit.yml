@@ -11,4 +11,16 @@ compose_services:
   - strapi_terse
   - nextcloud
   - caddy_reverse_proxy
+docker_compose_volumes:
+  - caddy_reverse_proxy_config
+  - caddy_reverse_proxy_data
+  - mariadb
+  - nextcloud_data
+  - nextcloud_html
+  - strapi_terse
+  - teamspeak
+  - wp_edmunds
+  - znc
+backup_dir: /srv/backups
+restore_dir: /srv/restore
 

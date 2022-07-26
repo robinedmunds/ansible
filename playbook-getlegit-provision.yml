@@ -8,18 +8,7 @@
     - role: common
     - role: debian-docker
     # - role: debian-harden
-  vars:
-    docker_compose_volumes:
-      - caddy_reverse_proxy_config
-      - caddy_reverse_proxy_data
-      - mariadb
-      - nextcloud_data
-      - nextcloud_html
-      - strapi_terse
-      - teamspeak
-      - wp_edmunds
-      - znc
-    restore_dir: /srv/restore
+  vars_files: ./vars/getlegit.yml
 
   tasks:
     - name: Create docker network network1

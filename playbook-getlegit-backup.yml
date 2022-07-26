@@ -2,21 +2,7 @@
 - name: Backup all managed, containerised services on getlegit server
   hosts: getlegit
   become: yes
-  vars:
-    sudo_group: sudo
-    compose_parent_dir: /srv/docker/
-    backup_dir: /srv/backups
-    compose_services:
-      - nginx/getlegit
-      - nginx/hatch
-      - nginx/maljo
-      - nginx/terse
-      - teamspeak
-      - wp_edmunds
-      - znc
-      - strapi_terse
-      - nextcloud
-      - caddy_reverse_proxy
+  vars_files: ./vars/getlegit.yml
 
   tasks:
     - name: Create directory for database backups
