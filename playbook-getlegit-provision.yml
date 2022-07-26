@@ -172,4 +172,4 @@
         key_file: /srv/keys/id_ed25519
         remote: remote
         repo: git@github.com:robinedmunds/getlegit-docker-compose.git
-        dest: /srv/getlegit-docker-compose
+        dest: "{{ compose_parent_dir }}"
