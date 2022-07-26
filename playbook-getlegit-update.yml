@@ -33,14 +33,14 @@
         key_file: /srv/keys/id_ed25519
         remote: remote
         repo: git@github.com:robinedmunds/getlegit-docker-compose.git
-        dest: /srv/getlegit-docker-compose
+        dest: "{{ compose_parent_dir }}"
 
     - name: Set ownership of getlegit-docker-compose repo files
       ansible.builtin.file:
         group: docker
         mode: 0664
         owner: robin
-        path: /srv/getlegit-docker-compose
+        path: "{{ compose_parent_dir }}"
         recurse: yes
 
     - name: Stop all docker-compose services
