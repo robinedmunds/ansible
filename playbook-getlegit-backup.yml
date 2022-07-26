@@ -190,6 +190,7 @@
 
     # --------------------------------------------
 
+    # UNTESTED
     - name: Copy remote backup dir to ansible controller
       ansible.posix.synchronize:
         archive: yes
