@@ -36,13 +36,6 @@
       ansible.builtin.command:
         cmd: rsync --archive --verbose /srv/www/ {{ backup_dir }}/www/
 
-    # - name: Backup www directory using rsync
-    #   ansible.posix.synchronize:
-    #     mode: pull # https://docs.ansible.com/ansible/latest/collections/ansible/posix/synchronize_module.html#parameter-mode
-    #     archive: yes
-    #     dest: "{{ backup_dir }}/www/"
-    #     src: /srv/www/
-
     # --------------------------------------------
 
     # $ sudo -u www-data php occ maintenance:mode --on
@@ -201,7 +194,7 @@
       ansible.posix.synchronize:
         archive: yes
         compress: yes
-        dest: /tmp
+        dest: /home/ansible/backup-getlegit
         mode: pull
         src: "{{ backup_dir }}"
         rsync_path: /usr/bin/rsync

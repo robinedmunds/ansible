@@ -53,6 +53,7 @@ For quickly provisioning containerised web servers in the cloud. Setup web serve
 3. `source venv/bin/activate`
 4. `pip install -r requirements.txt`
 5. `ansible-galaxy collection install community.general`
+6. `ansible-galaxy collection install ansible.posix`
 
 ## ansible.cfg
 
