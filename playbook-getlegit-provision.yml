@@ -11,7 +11,9 @@
   vars_files: ./vars/getlegit.yml
 
   tasks:
-    # TODO: rsync clone from ansible controller, start mariadb service, restore database
+    # TODO: rsync clone from ansible controller, taring?!?!?!
+    # TODO: start mariadb service, restore database
+    # TODO: restore database
 
     # UNTESTED
     - name: Copy ansible controller backup to target
@@ -173,3 +175,36 @@
         remote: remote
         repo: git@github.com:robinedmunds/getlegit-docker-compose.git
         dest: "{{ compose_parent_dir }}"
+
+    # TODO: needs .env file for mariadb to be copied to remote
+
+    - name: Pull fresh mariadb image, start mariadb docker-compose service
+      community.docker.docker_compose:
+        pull: yes
+        project_src: "{{ compose_parent_dir }}/mariadb"
+        state: present
+        stopped: no
+      register: output
+
+    - ansible.builtin.debug:
+        var: output
+
+    - name: Start temp mariadb container, connect to main db, restore backup
+      community.docker.docker_container:
+        cleanup: yes
+        command: sh -c 'exec gunzip < /backup/all_databases.sql.gz | exec mysql --opt --host=mariadb_db_1 --user=root --password=$MYSQL_ROOT_PASSWORD'
+        command_handling: correct
+        detach: no
+        env_file: MARIADB1_ENV_PATH
+        image: mariadb:10.5
+        interactive: no
+        keep_volumes: no
+        name: db_restore
+        networks:
+          - network1
+        pull: yes
+        restart: no
+        restart_policy: "no"
+        state: started
+        volumes:
+          - "{{ restore_dir }}/:/restore/"
