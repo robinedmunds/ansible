@@ -24,7 +24,7 @@
     update: yes
     clone: yes
     remote: remote
-    repo: https://github.com/robinedmunds/Personal-Linux-Env.git
+    repo: git@github.com:robinedmunds/Personal-Linux-Env.git
     dest: /home/robin/.ansible-robin/Personal-Linux-Env
 
 - name: Change ownership of cloned repo dir
