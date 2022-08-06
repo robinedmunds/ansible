@@ -56,7 +56,7 @@
         disabled: no
         hour: "*"
         job: "{{ compose_parent_dir }}/nextcloud/cron.sh >/dev/null 2>&1"
-        minute: "/5"
+        minute: "*/5"
         month: "*"
         name: nextcloud_cron
         state: present
