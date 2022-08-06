@@ -49,7 +49,19 @@
         mode: 0774
         path: "{{ compose_parent_dir }}"/nextcloud/cron.sh
 
-    # TODO: add nextcloud cronjob to user, robin
+    - name: Add crontab for nextcloud cronjob
+      ansible.builtin.cron:
+        backup: no
+        day: "*"
+        disabled: no
+        hour: "*"
+        job: "{{ compose_parent_dir }}"/nextcloud/cron.sh >/dev/null 2>&1
+        minute: "/5"
+        month: "*"
+        name: nextcloud_cron
+        state: present
+        user: robin
+        weekday: "*"
 
     - name: Stop all docker-compose services
       community.docker.docker_compose:
