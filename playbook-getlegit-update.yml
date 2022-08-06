@@ -47,7 +47,7 @@
     - name: Set nextcloud cronjob script to executable
       ansible.builtin.file:
         mode: 0774
-        path: '"{{ compose_parent_dir }}"/nextcloud/cron.sh'
+        path: "{{ compose_parent_dir }}/nextcloud/cron.sh"
 
     - name: Add crontab for nextcloud cronjob
       ansible.builtin.cron:
@@ -55,7 +55,7 @@
         day: "*"
         disabled: no
         hour: "*"
-        job: "{{ compose_parent_dir }}"/nextcloud/cron.sh >/dev/null 2>&1
+        job: "{{ compose_parent_dir }}/nextcloud/cron.sh >/dev/null 2>&1"
         minute: "/5"
         month: "*"
         name: nextcloud_cron
