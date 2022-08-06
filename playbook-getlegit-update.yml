@@ -42,6 +42,14 @@
         owner: robin
         path: "{{ compose_parent_dir }}"
         recurse: yes
+        state: directory
+
+    - name: Set nextcloud cronjob script to executable
+      ansible.builtin.file:
+        mode: 0774
+        path: "{{ compose_parent_dir }}"/nextcloud/cron.sh
+
+    # TODO: add nextcloud cronjob to user, robin
 
     - name: Stop all docker-compose services
       community.docker.docker_compose:
@@ -86,6 +94,8 @@
 
     - ansible.builtin.debug:
         var: output
+
+    # TODO: occ db:add-missing-indices
 
     - name: Remove redundant docker images
       community.docker.docker_prune:
