@@ -107,7 +107,11 @@
     - ansible.builtin.debug:
         var: output
 
-    # TODO: occ db:add-missing-indices
+    - name: Run occ db:add-missing-indices in nextcloud container
+      community.docker.docker_container_exec:
+        command: runuser -u www-data -- php occ db:add-missing-indices
+        container: nextcloud_app_1
+        detach: no
 
     - name: Remove redundant docker images
       community.docker.docker_prune:
