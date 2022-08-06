@@ -55,7 +55,7 @@
         day: "*"
         disabled: no
         hour: "*"
-        job: "{{ compose_parent_dir }}"/nextcloud/cron.sh >/dev/null 2>&1
+        job: /srv/getlegit-docker-compose/nextcloud/cron.sh >/dev/null 2>&1
         minute: "/5"
         month: "*"
         name: nextcloud_cron
