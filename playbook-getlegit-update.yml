@@ -63,6 +63,11 @@
         user: robin
         weekday: "*"
 
+    - name: Set teamspeak renice cronjob script to executable
+      ansible.builtin.file:
+        mode: 0774
+        path: "{{ compose_parent_dir }}/teamspeak/renice.sh"
+
     - name: Add crontab for teamspeak cpu priority increase
       ansible.builtin.cron:
         backup: no
