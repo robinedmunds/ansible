@@ -63,6 +63,16 @@
         user: robin
         weekday: "*"
 
+    - name: Add crontab for teamspeak cpu priority increase
+      ansible.builtin.cron:
+        backup: no
+        disabled: no
+        job: "{{ compose_parent_dir }}/teamspeak/renice.sh >/dev/null 2>&1"
+        name: Increase CPU priority of teamspeak server
+        special_time: hourly
+        state: present
+        user: root
+
     - name: Stop all docker-compose services
       community.docker.docker_compose:
         project_src: "{{ compose_parent_dir }}/{{ item }}"
