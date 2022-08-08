@@ -44,6 +44,11 @@
         recurse: yes
         state: directory
 
+    - name: Set getlegit-docker-compose dirs to listable
+      ansible.builtin.command:
+        chdir: "{{ compose_parent_dir }}"
+        cmd: find . -type d -exec chmod +x {} \;
+
     - name: Set nextcloud cronjob script to executable
       ansible.builtin.file:
         mode: 0774
