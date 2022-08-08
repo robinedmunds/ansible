@@ -4,6 +4,8 @@
     state: latest
     install_recommends: yes
     upgrade: safe
+  notify:
+    - Reboot target
 
 - name: Install list of essential apt pkgs
   apt:

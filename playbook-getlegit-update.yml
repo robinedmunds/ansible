@@ -131,12 +131,3 @@
     - name: Remove redundant docker images
       community.docker.docker_prune:
         images: yes
-
-    - name: Perform safe apt upgrade
-      apt:
-        update_cache: yes
-        state: latest
-        install_recommends: yes
-        upgrade: safe
-      notify:
-        - Reboot target
