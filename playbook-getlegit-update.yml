@@ -30,6 +30,7 @@
         accept_newhostkey: yes
         update: yes
         clone: yes
+        force: yes
         key_file: /srv/keys/id_ed25519
         remote: remote
         repo: git@github.com:robinedmunds/getlegit-docker-compose.git
