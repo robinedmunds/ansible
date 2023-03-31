@@ -19,6 +19,9 @@
     manage_dir: yes
     validate_certs: yes # https source
 
+- name: Add safe directory to git
+  command: git config --global --add safe.directory '/home/robin/.ansible-robin/Personal-Linux-Env'
+
 - name: Clone Personal-Linux-Env repo (read only)
   git:
     update: yes

@@ -25,6 +25,9 @@
         state: present
         type: ed25519
 
+    - name: Add safe directory to git
+      command: git config --global --add safe.directory "{{ compose_parent_dir }}"
+
     - name: Clone robinedmunds/getlegit-docker-compose repo
       ansible.builtin.git:
         accept_newhostkey: yes
