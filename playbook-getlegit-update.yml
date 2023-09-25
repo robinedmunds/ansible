@@ -137,7 +137,6 @@
         container: nextcloud_app_1
         detach: no
       loop:
-        - runuser -u www-data -- php occ upgrade
         - runuser -u www-data -- php occ maintenance:mode --on
         - runuser -u www-data -- php occ db:add-missing-indices
         - runuser -u www-data -- php occ maintenance:mode --off
