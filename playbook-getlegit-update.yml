@@ -86,12 +86,14 @@
         special_time: hourly
         state: present
         user: root
+          
 
+    # FIXME: docker-compose EOL. convert to shell commands
+          
     - name: Stop all docker-compose services
-      community.docker.docker_compose:
-        project_src: "{{ compose_parent_dir }}/{{ item }}"
-        state: present
-        stopped: yes
+      ansible.builtin.shell:
+        chdir: "{{ compose_parent_dir }}/{{ item }}"
+        cmd: "docker compose down"
       loop: "{{ compose_services }}"
       register: output
 
@@ -99,32 +101,27 @@
         var: output
 
     - name: Stop mariadb docker-compose service
-      community.docker.docker_compose:
-        project_src: "{{ compose_parent_dir }}/mariadb"
-        state: present
-        stopped: yes
+      ansible.builtin.shell:
+        chdir: "{{ compose_parent_dir }}/mariadb"
+        cmd: "docker compose down"
       register: output
 
     - ansible.builtin.debug:
         var: output
 
     - name: Pull fresh mariadb image, start mariadb docker-compose service
-      community.docker.docker_compose:
-        pull: yes
-        project_src: "{{ compose_parent_dir }}/mariadb"
-        state: present
-        stopped: no
+      ansible.builtin.shell:
+        chdir: "{{ compose_parent_dir }}/mariadb"
+        cmd: "docker compose pull"
       register: output
 
     - ansible.builtin.debug:
         var: output
 
     - name: Pull fresh images, start all docker-compose services
-      community.docker.docker_compose:
-        pull: yes
-        project_src: "{{ compose_parent_dir }}/{{ item }}"
-        state: present
-        stopped: no
+      ansible.builtin.shell:
+        chdir: "{{ compose_parent_dir }}/{{ item }}"
+        cmd: "docker compose pull"
       loop: "{{ compose_services }}"
       register: output
 
@@ -132,10 +129,9 @@
         var: output
 
     - name: Run nextcloud maintenance commands inside container
-      community.docker.docker_container_exec:
-        command: "{{ item }}"
-        container: nextcloud_app_1
-        detach: no
+      ansible.builtin.shell:
+        chdir: "{{ compose_parent_dir }}/nextcloud"
+        cmd: "docker compose exec --detach app {{ item }}"
       loop:
         - runuser -u www-data -- php occ maintenance:mode --on
         - runuser -u www-data -- php occ db:add-missing-indices
