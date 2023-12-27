@@ -109,7 +109,7 @@
     - ansible.builtin.debug:
         var: output
 
-    - name: Pull fresh mariadb image, start mariadb docker-compose service
+    - name: Pull fresh mariadb image
       ansible.builtin.shell:
         chdir: "{{ compose_parent_dir }}/mariadb"
         cmd: "docker compose pull"
@@ -118,10 +118,29 @@
     - ansible.builtin.debug:
         var: output
 
-    - name: Pull fresh images, start all docker-compose services
+    - name: Start mariadb docker compose service
+      ansible.builtin.shell:
+        chdir: "{{ compose_parent_dir }}/mariadb"
+        cmd: "docker compose up --detach --build"
+      register: output
+
+    - ansible.builtin.debug:
+        var: output
+
+    - name: Pull fresh docker images
       ansible.builtin.shell:
         chdir: "{{ compose_parent_dir }}/{{ item }}"
         cmd: "docker compose pull"
+      loop: "{{ compose_services }}"
+      register: output
+
+    - ansible.builtin.debug:
+        var: output
+
+    - name: Start all docker compose services
+      ansible.builtin.shell:
+        chdir: "{{ compose_parent_dir }}/{{ item }}"
+        cmd: "docker compose up --detach --build"
       loop: "{{ compose_services }}"
       register: output
 
