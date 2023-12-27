@@ -137,6 +137,22 @@
     - ansible.builtin.debug:
         var: output
 
+    - name: Set ownership of nextcloud/config.php
+      ansible.builtin.file:
+        group: www-data
+        mode: 0660
+        owner: www-data
+        path: "{{ compose_parent_dir }}/nextcloud/config.php"
+        state: file
+
+    - name: Set ownership of wp_edmunds/wp-config.php
+      ansible.builtin.file:
+        group: www-data
+        mode: 0660
+        owner: www-data
+        path: "{{ compose_parent_dir }}/wp_edmunds/wp-config.php"
+        state: file
+
     - name: Start all docker compose services
       ansible.builtin.shell:
         chdir: "{{ compose_parent_dir }}/{{ item }}"
