@@ -2,5 +2,6 @@
 - name: Install docker daemon from official docker repo
   import_tasks: docker.yml
 
-- name: Install docker-compose
-  import_tasks: docker-compose.yml
+# no longer required as compose is integrated into docker engine
+#- name: Install docker-compose
+#  import_tasks: docker-compose.yml
