@@ -2,7 +2,6 @@ sudo_group: sudo
 compose_parent_dir: /srv/getlegit-docker-compose
 compose_services:
   - nginx/getlegit
-  - nginx/hatch
   - nginx/maljo
   - nginx/terse
   - teamspeak
