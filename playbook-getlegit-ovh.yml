@@ -161,4 +161,4 @@
     - name: Display warning that rocky/root user needs changing to ansible
       debug:
         msg: rocky and root users now locked. Switch to ansible user in inventory...
-       verbosity: 0
+        verbosity: 0
