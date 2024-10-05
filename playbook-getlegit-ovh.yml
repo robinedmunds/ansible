@@ -52,7 +52,7 @@
     - name: Install list of essential dnf pkgs
       dnf:
         state: latest
-        name: "{{ essential_pkgs['fedora'] }}"
+        name: "{{ essential_pkgs }}"
 
     - name: Create whoops (recovery) user with sudo
       user:
