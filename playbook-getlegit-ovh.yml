@@ -170,7 +170,7 @@
       dnf:
         update_cache: yes
         state: latest
-        name: {{ item }}
+        name: "{{ item }}"
       loop:
         - podman
         - podman-compose
