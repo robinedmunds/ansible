@@ -20,7 +20,6 @@ all:
       hosts:
         0.getlegit.co.uk:
           ansible_host: 192.168.40.128
-          ansible_user: rocky
 
   vars:
     ansible_user: ansible
