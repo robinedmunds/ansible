@@ -163,3 +163,14 @@
       debug:
         msg: rocky and root users now locked. Switch to ansible user in inventory...
         verbosity: 0
+
+    # PODMAN
+        
+    - name: Install podman, podman-compose
+      dnf:
+        update_cache: yes
+        state: latest
+        name: {{ item }}
+      loop:
+        - podman
+        - podman-compose
