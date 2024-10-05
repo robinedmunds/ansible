@@ -1,6 +1,7 @@
 ---
 - name: Create common accounts, lock root
   hosts: getlegit
+  become: yes
   
   vars:
     - sudo_group: wheel
