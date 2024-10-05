@@ -16,6 +16,12 @@ all:
         1.k8s.local:
           ansible_host: 1.k8s.local
 
+    getlegit:
+      hosts:
+        0.getlegit.co.uk:
+          ansible_host: 192.168.40.128
+          ansible_user: rocky
+
   vars:
     ansible_user: ansible
     ansible_port: 22

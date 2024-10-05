@@ -1,0 +1,164 @@
+---
+- name: Create common accounts, lock root
+  hosts: getlegit
+  
+  vars:
+    - sudo_group: wheel
+    - essential_pkgs: [
+          "sudo",
+          "less",
+          "neovim",
+          "nano",
+          "tree",
+          "tmux",
+          "htop",
+          "lshw",
+          "curl",
+          "wget",
+          "git",
+          "gnupg",
+          "zip",
+          "pigz",
+          "python3-pip",
+          "rsync"
+        ]
+
+  handlers:
+    - name: Reboot target
+      reboot:
+  
+  tasks:
+    - name: Set hostname of target to inventory alias
+      hostname:
+        use: systemd
+        name: "{{ inventory_hostname }}"
+
+    - name: Generate /etc/hosts from template
+      template:
+        src: templates/hosts.j2
+        dest: /etc/hosts
+        force: yes
+        group: root
+        owner: root
+        mode: 0644
+
+    - name: Perform dnf upgrade
+      dnf:
+        update_cache: yes
+        state: latest
+        name: "*"
+
+    - name: Install list of essential dnf pkgs
+      dnf:
+        state: latest
+        name: "{{ essential_pkgs['fedora'] }}"
+
+    - name: Create whoops (recovery) user with sudo
+      user:
+        name: whoops
+        shell: /bin/bash
+        create_home: yes
+        append: yes
+        groups: "{{ sudo_group }}"
+        comment: Recovery account with sudo
+
+    - name: Copy ed25519 "whoops-recovery" public key
+      authorized_key:
+        user: whoops
+        key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPoYX577mw7BxZzxpI2s69e31mMjCzyKIqTGJAvv7COd whoops-recovery
+        exclusive: yes
+        manage_dir: yes
+        validate_certs: yes # https source
+
+    - name: Create ansible user with sudo
+      user:
+        name: ansible
+        uid: 2012
+        shell: /bin/bash
+        create_home: yes
+        append: yes
+        groups: "{{ sudo_group }}"
+        password: $6$iWpFu0lYhL10gNcX$kKvF4SpNd5tE.RaEKfBoUqMWNft42RRhLVd7b21nvcvBt4mYNvLigmVrrhv5Yrfnr9zCSLLhF1P.qwaVuftX.1
+        comment: Ansible remote execution
+
+    - name: Copy ed25519 "ansible" public key
+      authorized_key:
+        user: ansible
+        key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMYhUo30YN7m8OvMskGtKyFzTkFaXWlfEzNSgBOm9qlB ansible
+        exclusive: yes
+        manage_dir: yes
+        validate_certs: yes # https source
+
+    - name: Set randomised root password
+      user:
+        name: root
+        password: $6$SS65YO1BI1xl0Lwj$MNJ8ZvI7bHWXC1MkOQS5cLPeBm6Zf4hZY.AK6wbV1fO4MZKtHk3WsTVD3qZ2xrEp.J2O4GjDU9eVJLtxEkPVh/
+
+    - name: Lock the root user
+      user:
+        name: root
+        password_lock: yes
+        
+    - name: Set password of whoops (recovery) user
+      user:
+        name: whoops
+        password: $6$Xcuyy3A1t8lKKa/e$wOvPy0mHWvcBYKfGuuCeZUQhdPqVdaY.ShaQ2eoiB6uvDmctJm5LZLkg7x1cMRXtjWrgEhJUIZvrG7nS7Tt0u/
+
+    - name: Create user, robin
+      user:
+        state: present
+        name: robin
+        uid: 1444
+        shell: /bin/bash
+        create_home: yes
+        append: yes
+        groups: "{{ sudo_group }}"
+        password: $6$1dXelg0r66x/qcnd$EZmR5S3lSVpBdzxVf6pYPENthCcHHO5GEa6oiQz//TC6q3M3qGErU9p2vsMSFGVqFNiVltvYrNmqinSRGzeqv/
+        comment: Robin Edmunds
+
+    - name: Copy ed25519 "robin-edmunds-2025" public key
+      authorized_key:
+        state: present
+        user: robin
+        key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPvqVJzQiJQ46LUg65l4cSCK3zjOvWhIi+D5WQXtB2eB robin-edmunds-2025
+        exclusive: yes
+        manage_dir: yes
+        validate_certs: yes # https source
+
+    - name: Add safe directory to git
+      command: git config --global --add safe.directory '/home/robin/.ansible-robin/Personal-Linux-Env'
+
+    - name: Clone Personal-Linux-Env repo (read only)
+      git:
+        update: yes
+        clone: yes
+        remote: remote
+        repo: https://github.com/robinedmunds/Personal-Linux-Env.git
+        dest: /home/robin/.ansible-robin/Personal-Linux-Env
+
+    - name: Change ownership of cloned repo dir
+      file:
+        path: /home/robin/.ansible-robin
+        recurse: yes
+        owner: robin
+        group: robin
+
+    - name: Execute Personal-Linux-Env symlinking script
+      command:
+        chdir: /home/robin/.ansible-robin/Personal-Linux-Env
+        cmd: runuser -u robin -- /bin/bash /home/robin/.ansible-robin/Personal-Linux-Env/symlink-files-to-home.sh
+
+    - name: Set randomised rocky password
+      user:
+        name: rocky
+        password: $6$SS65YO1BI1xl0Lwj$MNJ8ZvI7bHWXC1MkOQS5cLPeBm6Zf4hZY.AK6wbV1fO4MZKtHk3WsTVD3qZ2xrEp.J2O4GjDU9eVJLtxEkPVh/
+
+    - name: Lock the rocky user
+      user:
+        name: rocky
+        password_lock: yes
+        
+    - name: Display warning that rocky/root user needs changing to ansible
+      debug:
+        msg: rocky and root users now locked. Switch to ansible user in inventory...
+       verbosity: 0
