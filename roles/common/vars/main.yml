@@ -31,7 +31,6 @@ essential_pkgs:
       "tmux",
       "htop",
       "lshw",
-      "redhat-lsb-core",
       "curl",
       "wget",
       "git",
