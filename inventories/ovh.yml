@@ -5,8 +5,6 @@ all:
       hosts:
         0.getlegit.co.uk:
           ansible_host: 0.getlegit.co.uk
-          ansible_user: rocky
-          ansible_port: 22
 
   vars:
     ansible_user: ansible
