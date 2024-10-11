@@ -1,0 +1,15 @@
+all:
+  hosts:
+  children:
+    getlegit:
+      hosts:
+        getlegit.co.uk:
+          ansible_host: 0.getlegit.co.uk
+          ansible_user: rocky
+          ansible_port: 22
+
+  vars:
+    ansible_user: ansible
+    ansible_port: 1444
+    ansible_connection: ssh
+    ansible_python_interpreter: /usr/bin/python3
