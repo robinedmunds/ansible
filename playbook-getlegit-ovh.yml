@@ -42,6 +42,16 @@
         group: root
         owner: root
         mode: 0644
+        
+    - name: Enable crb (Code Ready Builder)
+      community.general.dnf_config_manager:
+        name: crb
+        state: enabled
+        
+    - name: Install EPEL repo via dnf (https://docs.fedoraproject.org/en-US/epel/getting-started/)
+      dnf:
+        state: latest
+        name: "epel-release"
 
     - name: Perform dnf upgrade
       dnf:
